@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrollytelling Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;700&family=Fragment+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="hero">
+    <span class="hero__label">Krista executes end-to-end business processes as a unified, cognitive system.
+
+</span>
+    <h1 class="hero__title">How the Krista Email Response Agent Works</h1>
+    <p class="hero__subtitle">Scroll down to explore each stage of the workflow. The panel on the right updates as you progress through each step.</p>
+  </header>
+
+  <section class="scrolly" aria-label="Feature walkthrough">
+
+    <!-- LEFT COLUMN: Scrollable text steps -->
+    <div class="scrolly__steps">
+
+      <article class="scrolly__step is-active" data-step="1">
+        <span class="scrolly__label">STEP 1 OF 6</span>
+        <h2 class="scrolly__heading">Monitor Inboxes</h2>
+        <p class="scrolly__text">Krista connects directly to shared inboxes like support@ or info@. Krista monitors incoming mail streams 24/7 and maintains a durable state, ensuring no process "times out" during long-running inquiries.</p>
+      </article>
+
+      <article class="scrolly__step" data-step="2">
+        <span class="scrolly__label">STEP 2 OF 6</span>
+        <h2 class="scrolly__heading">Detect Intent via Native ML</h2>
+        <p class="scrolly__text">Krista identifies the topic, urgency, and sentiment of every email. She uses native machine learning models built on your data to ensure higher accuracy than generic prompts.</p>
+      </article>
+
+      <article class="scrolly__step" data-step="3">
+        <span class="scrolly__label">STEP 3 OF 6</span>
+        <h2 class="scrolly__heading">Retrieve Enterprise Data</h2>
+        <p class="scrolly__text">Krista performs autonomous lookups in CRM, ERP, or ticketing systems. She uses a constructed memory to ensure that every agent on the platform understands the current status of the customer's account.</p>
+      </article>
+
+      <article class="scrolly__step" data-step="4">
+        <span class="scrolly__label">STEP 4 OF 6</span>
+        <h2 class="scrolly__heading">Send Response or Execute Action</h2>
+        <p class="scrolly__text">The platform drafts or sends the reply using your approved templates. This ensures the tone is perfect and the solution is correct based on real-time enterprise data.</p>
+      </article>
+
+      <article class="scrolly__step" data-step="5">
+        <span class="scrolly__label">STEP 5 OF 6</span>
+        <h2 class="scrolly__heading">Governed Human-in-the-Loop Escalation</h2>
+        <p class="scrolly__text">When Krista needs help she routes issues or asks for help for edge cases or when the machine learning model doesn’t confidently know the answer to the correct human expert. She provides a summarized context and quantifies her uncertainty so your team can make informed decisions.</p>
+      </article>
+
+      <article class="scrolly__step" data-step="6">
+        <span class="scrolly__label">STEP 6 OF 6</span>
+        <h2 class="scrolly__heading">Log, Close, and Learn</h2>
+        <p class="scrolly__text">Krista updates the ticketing system and logs the interaction for analytics. Every resolved case feeds back into the platform's memory, making the system smarter over time.</p>
+      </article>
+
+       <article class="scrolly__step" data-step="7">
+        <span class="scrolly__label">Contact Us</span>
+        <h2 class="scrolly__heading">Get Started with Krista</h2>
+        <p class="scrolly__text">That's the full Krista workflow in action. From monitoring inboxes to governed human-in-the-loop escalation and continuous learning, Krista handles it all with speed, accuracy, and brand safety.</p>
+
+    </div>
+
+    <!-- RIGHT COLUMN: Sticky panel with swappable content -->
+    <div class="scrolly__sticky-wrap">
+      <div class="scrolly__sticky">
+
+       <!-- Panel 1: Chat/Input Card – Step 1: Inbox Monitoring & Intent Detection -->
+<div class="scrolly__panel is-active" data-panel="1">
+  <div class="panel-card">
+    <div class="panel-card__header">
+      <span class="panel-card__dot panel-card__dot--red"></span>
+      <span class="panel-card__dot panel-card__dot--yellow"></span>
+      <span class="panel-card__dot panel-card__dot--green"></span>
+      <span class="panel-card__title">Krista Agent</span>
+    </div>
+    <div class="panel-card__body">
+      <div class="chat-bubble chat-bubble--user">
+        New email arrived in support@yourcompany.com<br>
+        From: customer123@example.com<br>
+        Subject: Where is my order #ORD-45678?
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Monitoring shared inbox 24/7...</span>
+        New message detected. Establishing durable connection state.
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Step 1 complete.</span>
+        Moving to intent detection.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Panel 2: Step 2 – Detailed Parsing, Intent Classification & Context Building -->
+<div class="scrolly__panel" data-panel="2">
+  <div class="panel-card">
+    <div class="panel-card__header">
+      <span class="panel-card__dot panel-card__dot--red"></span>
+      <span class="panel-card__dot panel-card__dot--yellow"></span>
+      <span class="panel-card__dot panel-card__dot--green"></span>
+      <span class="panel-card__title">Krista Agent</span>
+    </div>
+    <div class="panel-card__body">
+
+      <div class="chat-bubble chat-bubble--agent">
+        <span class="chat-bubble__status">Reading email content → subject, body, attachments...</span>
+        Parsing natural language input.
+        Extracting key entities: order number ORD-45678
+        Intent keywords: ("where is", "order").
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <div style="float: left; margin: 0 16px 12px 0; max-width: 20%;">
+          <img src="https://krista.ai/wp-content/uploads/2024/02/Ask-Krista-AI@2x.png" 
+               alt="Krista AI Intent Detection Illustration" 
+               style="display: block; width: 100%; height: auto; border-radius: 8px;">
+        </div>
+        <span class="chat-bubble__status">Calling native ML intent classifier (trained on your historical data)...</span>
+        Analyzing topic, urgency, and sentiment. 
+        Model confidence: 94%.
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Intent detected:</span>
+        Topic → Order status inquiry<br>
+        Urgency → Medium<br>
+        Sentiment → Neutral / slightly anxious<br>
+        Primary intent label → "shipment_question / track_order"
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Building shared memory context...</span>
+        Customer email matches existing record.
+        Preparing for autonomous data lookup in next step (CRM / ticketing system).
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Step 2 complete.</span>
+        High-confidence context established.
+        Initiating autonomous enterprise data retrieval.
+      </div>
+
+    </div>
+  </div>
+</div>
+    <!-- Panel 3: Step 3 – Autonomous Enterprise Data Retrieval -->
+<div class="scrolly__panel" data-panel="3">
+  <div class="panel-card">
+    <div class="panel-card__header">
+      <span class="panel-card__dot panel-card__dot--red"></span>
+      <span class="panel-card__dot panel-card__dot--yellow"></span>
+      <span class="panel-card__dot panel-card__dot--green"></span>
+      <span class="panel-card__title">Krista Agent</span>
+    </div>
+    <div class="panel-card__body">
+
+      <div class="chat-bubble chat-bubble--agent">
+        <!-- Icons row: Connected systems -->
+        <div style="text-align: center; margin-bottom: 12px;">
+          <!-- Salesforce (tinted to Krista blue) -->
+          <img src="https://simpleicons.org/icons/salesforce.svg" 
+               alt="Salesforce CRM" 
+               style="width: 32px; height: 32px; margin: 0 8px; vertical-align: middle; filter: brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(1352%) hue-rotate(168deg) brightness(95%) contrast(101%);">
+
+          <!-- Oracle (tinted similarly) -->
+          <img src="https://simpleicons.org/icons/oracle.svg" 
+               alt="Oracle ERP" 
+               style="width: 32px; height: 32px; margin: 0 8px; vertical-align: middle; filter: brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(1352%) hue-rotate(168deg) brightness(95%) contrast(101%);">
+
+          <!-- Zendesk (tinted) -->
+          <img src="https://upload.wikimedia.org/wikipedia/commons/c/c8/Zendesk_logo.svg" 
+               alt="Zendesk Ticketing" 
+               style="width: 32px; height: 32px; margin: 0 8px; vertical-align: middle; filter: brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(1352%) hue-rotate(168deg) brightness(95%) contrast(101%);">
+        </div>
+
+        <span class="chat-bubble__status">Retrieving real-time data from connected enterprise systems...</span>
+        Connected: Salesforce CRM, Oracle ERP, Zendesk ticketing.<br>
+        Found matching customer record in Salesforce.<br>
+        Order status pulled from ERP: Shipped via UPS.<br>
+        No open tickets in Zendesk – proceeding to draft personalized response.
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Step 3 complete.</span>
+        All required data retrieved with high confidence.
+        Moving to response generation.
+      </div>
+
+    </div>
+  </div>
+</div>
+    
+
+        <!-- Panel 4: Step 4 – Draft Response Generation with Templates & Krista LLM -->
+<div class="scrolly__panel" data-panel="4">
+  <div class="panel-card">
+    <div class="panel-card__header">
+      <span class="panel-card__dot panel-card__dot--red"></span>
+      <span class="panel-card__dot panel-card__dot--yellow"></span>
+      <span class="panel-card__dot panel-card__dot--green"></span>
+      <span class="panel-card__title">Krista Agent</span>
+    </div>
+    <div class="panel-card__body">
+
+      <div class="chat-bubble chat-bubble--agent">
+        <span class="chat-bubble__status">Collecting all relevant information and data...</span>
+        Merging real-time results from Salesforce CRM, Oracle ERP, Zendesk ticketing, and shared memory context.<br>
+        Customer record confirmed:
+         • Order #ORD-45678 status: Shipped
+         • ETA: 2 days • No open tickets
+         • Sentiment: Neutral/slightly anxious.
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Retrieving approved brand template...</span>
+        Matching intent label "shipment_question / track_order" to your pre-approved response library.<br>
+        Selected template: "Order-Status-Update-Standard-v3" (contains placeholders for order number, carrier, ETA, and empathetic tone).
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Building structured prompt for Krista LLM...</span>
+        Injecting live data into template slots
+         • Enforcing exact brand tone guidelines
+         • Adding personalization rules (customer name, previous interaction history) 
+         • Including compliance & accuracy guardrails.
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Calling Krista LLM (fine-tuned on your historical data & tone)...</span>
+        Generating response with high fidelity.<br>
+        Model confidence: 98%.
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Step 4 complete.</span>
+        Personalized reply drafted and and delivered.
+      </div>
+
+    </div>
+  </div>
+</div>
+
+        <!-- Panel 5: Step 5 – Governed Human-in-the-Loop Escalation -->
+<div class="scrolly__panel" data-panel="5">
+  <div class="panel-card">
+    <div class="panel-card__header">
+      <span class="panel-card__dot panel-card__dot--red"></span>
+      <span class="panel-card__dot panel-card__dot--yellow"></span>
+      <span class="panel-card__dot panel-card__dot--green"></span>
+      <span class="panel-card__title">Krista Agent</span>
+    </div>
+    <div class="panel-card__body">
+
+      <div class="chat-bubble chat-bubble--agent">
+        <span class="chat-bubble__status">Evaluating response confidence before send...</span>
+        Intent classification: 94% (from Step 2)<br>
+        Data retrieval completeness: 100%<br>
+        Generated response personalization & tone match: 72%<br>
+        Overall confidence score: 78%<br><br>
+        <strong>Threshold not met (below 85%). Triggering governed human-in-the-loop escalation.</strong>
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Routing to human expert...</span>
+        Detected edge case: Customer mentioned "damaged package" in follow-up sentence not captured in primary intent.<br>
+        Uncertainty source: Ambiguous damage description + no matching photos or prior claim in Zendesk.<br>
+        Recommended assignee: Customer Support Tier 2 (SME: Shipping & Claims)
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Human escalation ticket created & assigned</span>
+        Sending summary context to agent dashboard...
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <strong>Message to assigned agent (visible in your ticketing / collaboration tool):</strong><br><br>
+        <em>Hi Team,<br><br>
+        Krista here — I've escalated this conversation (Ticket #SUP-98765, Customer: customer123@example.com, Order #ORD-45678).<br><br>
+        <strong>Why escalation?</strong><br>
+        • Overall confidence: 78% (below 85% threshold)<br>
+        • Detected potential claim for damaged package in body text ("box arrived crushed"), but no photos or prior claim found<br>
+        • Intent label "shipment_question" may need upgrade to "damage_claim_inquiry"<br><br>
+        <strong>Current Krista draft (not sent):</strong><br>
+        "Hi [Name], thank you for reaching out about order #ORD-45678. Your package has shipped via UPS and is expected in 2 days."<br><br>
+        <strong>Recommended next steps:</strong><br>
+        1. Review full email thread (attached in ticket)<br>
+        2. Decide if this needs damage claim process (request photos, file claim with UPS, issue refund/replacement)<br>
+        3. Reply directly or update Krista with approved response text / new intent label<br>
+        4. Mark ticket "Resolved by human" or "Teach Krista" to retrain model on this edge case<br><br>
+        Let me know how you'd like to proceed — I'm ready to incorporate your guidance instantly.<br><br>
+        Thanks!<br>Krista</em>
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Waiting for human input...</span>
+        Escalation complete. Krista paused — will resume once agent provides direction or approval.<br>
+        This ensures 100% accuracy and brand safety on uncertain cases.
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Step 5 complete (conditional).</span>
+        Governed human-in-the-loop activated for edge case handling. Process remains fully auditable and improvable.
+      </div>
+
+    </div>
+  </div>
+</div>
+
+        <!-- Panel 6: Step 6 – Log, Close, and Learn (Continuous Improvement Loop) -->
+<div class="scrolly__panel" data-panel="6">
+  <div class="panel-card">
+    <div class="panel-card__header">
+      <span class="panel-card__dot panel-card__dot--red"></span>
+      <span class="panel-card__dot panel-card__dot--yellow"></span>
+      <span class="panel-card__dot panel-card__dot--green"></span>
+      <span class="panel-card__title">Krista Agent</span>
+    </div>
+    <div class="panel-card__body">
+
+      <div class="chat-bubble chat-bubble--agent">
+        <span class="chat-bubble__status">Finalizing interaction – entering logging & learning phase...</span>
+        All steps completed. Response delivered (or escalated & resolved with human input).
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Updating ticketing system for compliance & audit trail...</span>
+        Logging full interaction metadata to Zendesk / your chosen platform:<br>
+        • Ticket #SUP-98765 updated & closed<br>
+        • Full email thread archived<br>
+        • Resolution outcome recorded: "Answered via Krista AI" or "Resolved by human escalation"<br>
+        • Timestamps, confidence scores, data sources, and final response attached<br>
+        • Compliance tags applied (e.g., GDPR/PII handled, no sensitive data exposed)
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Feeding resolved case back into Krista platform memory...</span>
+        Preparing anonymized learning dataset:<br>
+        • Original email + extracted intent<br>
+        • Retrieved enterprise data (Salesforce, Oracle, Zendesk)<br>
+        • Generated draft (if sent) or human-approved final response<br>
+        • Confidence scores at each step<br>
+        • Any escalation reason & human correction (if applicable)
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Reinforcement & model update initiated...</span>
+        Sending batch to Krista training pipeline:<br>
+        • If fully autonomous (high confidence): Positive reinforcement – strengthens current intent classification & response patterns<br>
+        • If human escalated & provided correction: Supervised learning signal – adjusts model weights for this edge case<br>
+        • Retraining frequency: Continuous (incremental updates) + periodic full retrain on accumulated cases<br>
+        • Outcome: Next time a similar ambiguous "damaged package" inquiry arrives, Krista will classify & handle it with higher confidence
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Learning loop complete.</span>
+        Interaction logged for analytics & compliance.<br>
+        Model improved incrementally.<br>
+        Krista is now smarter for future inquiries from this customer and similar ones.
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Step 6 complete – cycle finished.</span>
+        Ready for next incoming email. Continuous improvement active 24/7.
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- Panel 7: Final Summary & Call to Action -->
+<div class="scrolly__panel" data-panel="7">
+  <div class="panel-card">
+    <div class="panel-card__header">
+      <span class="panel-card__dot panel-card__dot--red"></span>
+      <span class="panel-card__dot panel-card__dot--yellow"></span>
+      <span class="panel-card__dot panel-card__dot--green"></span>
+      <span class="panel-card__title">Krista Agent</span>
+    </div>
+    <div class="panel-card__body">
+
+      <div class="chat-bubble chat-bubble--agent">
+        <strong>That's the full Krista workflow in action.</strong><br><br>
+        Here's what just happened behind the scenes:
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Quick recap of the 6-step process:</span>
+        1. Monitored inbox & detected intent with native ML (94% confidence)<br>
+        2. Parsed email, extracted entities, classified topic/urgency/sentiment<br>
+        3. Autonomously retrieved real-time data from Salesforce, Oracle, Zendesk<br>
+        4. Selected approved template, prompted Krista LLM, generated personalized reply<br>
+        5. Evaluated confidence (78% < threshold) → escalated to human expert with context & instructions<br>
+        6. Logged interaction for compliance, closed ticket, fed resolution back to train & improve the model
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <strong>The result?</strong><br>
+        Fast, accurate, on-brand responses to routine questions — with zero risk on edge cases thanks to governed human-in-the-loop and continuous learning.<br><br>
+        This is what happens automatically for every email when you use Krista.
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <strong>Building this yourself would require:</strong><br><br>
+        • Custom machine learning models trained on your data<br>
+        • Enterprise-grade security & compliance (PII handling, audit trails, GDPR/SOX)<br>
+        • Robust governance & confidence scoring<br>
+        • Real-time integrations to every system (CRM, ERP, ticketing)<br>
+        • A safe way to detect out-of-bounds conditions and seamlessly engage the right human expert<br>
+        • Ongoing reinforcement learning from every resolved case<br><br>
+        That's a massive engineering lift — and most teams never finish it.
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <strong>Krista already solves all of this — out of the box.</strong><br><br>
+        No reinventing the wheel. Just connect your inbox and systems, define your tone/templates, set confidence thresholds… and let the agentic platform handle the rest.<br><br>
+        Ready to stop drowning in shared inbox emails and start scaling support intelligently?
+      </div>
+
+      <!-- Call to Action Button -->
+      <div style="text-align: center; margin: 24px 0;">
+        <a href="https://krista.ai/contact/" 
+           target="_blank" 
+           style="display: inline-block; padding: 16px 32px; background-color: #4FD7ED; color: #FFFFFF; font-weight: bold; text-decoration: none; border-radius: 8px; font-size: 18px; box-shadow: 0 4px 12px rgba(79,215,237,0.3); transition: all 0.3s;">
+          Contact Us to Get Started
+        </a>
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden" style="text-align: center; font-size: 14px; color: #7471FF;">
+        Let's talk about how Krista can transform your shared inbox today.
+      </div>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+
+  </section>
+
+  <footer class="closing">
+    <p class="closing__text">That's the full workflow. Simple, fast, and thorough.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
