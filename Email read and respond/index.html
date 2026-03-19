@@ -282,25 +282,6 @@
       </div>
 
       <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
-        <strong>Message to assigned agent (visible in your ticketing / collaboration tool):</strong><br><br>
-        <em>Hi Team,<br><br>
-        Krista here — I've escalated this conversation (Ticket #SUP-98765, Customer: customer123@example.com, Order #ORD-45678).<br><br>
-        <strong>Why escalation?</strong><br>
-        • Overall confidence: 78% (below 85% threshold)<br>
-        • Detected potential claim for damaged package in body text ("box arrived crushed"), but no photos or prior claim found<br>
-        • Intent label "shipment_question" may need upgrade to "damage_claim_inquiry"<br><br>
-        <strong>Current Krista draft (not sent):</strong><br>
-        "Hi [Name], thank you for reaching out about order #ORD-45678. Your package has shipped via UPS and is expected in 2 days."<br><br>
-        <strong>Recommended next steps:</strong><br>
-        1. Review full email thread (attached in ticket)<br>
-        2. Decide if this needs damage claim process (request photos, file claim with UPS, issue refund/replacement)<br>
-        3. Reply directly or update Krista with approved response text / new intent label<br>
-        4. Mark ticket "Resolved by human" or "Teach Krista" to retrain model on this edge case<br><br>
-        Let me know how you'd like to proceed — I'm ready to incorporate your guidance instantly.<br><br>
-        Thanks!<br>Krista</em>
-      </div>
-
-      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
         <span class="chat-bubble__status">Waiting for human input...</span>
         Escalation complete. Krista paused — will resume once agent provides direction or approval.<br>
         This ensures 100% accuracy and brand safety on uncertain cases.
@@ -333,31 +314,15 @@
 
       <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
         <span class="chat-bubble__status">Updating ticketing system for compliance & audit trail...</span>
-        Logging full interaction metadata to Zendesk / your chosen platform:<br>
+        Logging full interaction metadata to Zendesk.<br>
         • Ticket #SUP-98765 updated & closed<br>
         • Full email thread archived<br>
-        • Resolution outcome recorded: "Answered via Krista AI" or "Resolved by human escalation"<br>
-        • Timestamps, confidence scores, data sources, and final response attached<br>
         • Compliance tags applied (e.g., GDPR/PII handled, no sensitive data exposed)
       </div>
 
       <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
         <span class="chat-bubble__status">Feeding resolved case back into Krista platform memory...</span>
-        Preparing anonymized learning dataset:<br>
-        • Original email + extracted intent<br>
-        • Retrieved enterprise data (Salesforce, Oracle, Zendesk)<br>
-        • Generated draft (if sent) or human-approved final response<br>
-        • Confidence scores at each step<br>
-        • Any escalation reason & human correction (if applicable)
-      </div>
-
-      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
-        <span class="chat-bubble__status">Reinforcement & model update initiated...</span>
-        Sending batch to Krista training pipeline:<br>
-        • If fully autonomous (high confidence): Positive reinforcement – strengthens current intent classification & response patterns<br>
-        • If human escalated & provided correction: Supervised learning signal – adjusts model weights for this edge case<br>
-        • Retraining frequency: Continuous (incremental updates) + periodic full retrain on accumulated cases<br>
-        • Outcome: Next time a similar ambiguous "damaged package" inquiry arrives, Krista will classify & handle it with higher confidence
+        Preparing anonymized learning dataset.<br>
       </div>
 
       <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
@@ -388,17 +353,6 @@
 
       <div class="chat-bubble chat-bubble--agent">
         <strong>That's the full Krista workflow in action.</strong><br><br>
-        Here's what just happened behind the scenes:
-      </div>
-
-      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
-        <span class="chat-bubble__status">Quick recap of the 6-step process:</span>
-        1. Monitored inbox & detected intent with native ML (94% confidence)<br>
-        2. Parsed email, extracted entities, classified topic/urgency/sentiment<br>
-        3. Autonomously retrieved real-time data from Salesforce, Oracle, Zendesk<br>
-        4. Selected approved template, prompted Krista LLM, generated personalized reply<br>
-        5. Evaluated confidence (78% < threshold) → escalated to human expert with context & instructions<br>
-        6. Logged interaction for compliance, closed ticket, fed resolution back to train & improve the model
       </div>
 
       <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
@@ -416,12 +370,6 @@
         • A safe way to detect out-of-bounds conditions and seamlessly engage the right human expert<br>
         • Ongoing reinforcement learning from every resolved case<br><br>
         That's a massive engineering lift — and most teams never finish it.
-      </div>
-
-      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
-        <strong>Krista already solves all of this — out of the box.</strong><br><br>
-        No reinventing the wheel. Just connect your inbox and systems, define your tone/templates, set confidence thresholds… and let the agentic platform handle the rest.<br><br>
-        Ready to stop drowning in shared inbox emails and start scaling support intelligently?
       </div>
 
       <!-- Call to Action Button -->
