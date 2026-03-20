@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrollytelling Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="hero">
+    <span class="hero__label">Krista executes end-to-end business processes as a unified, cognitive system.</span>
+    <h1 class="hero__title">How the Krista Document Process Works</h1>
+    <p class="hero__subtitle">Scroll down to explore each stage of the workflow. The panel on the right updates as you progress through each step.</p>
+  </header>
+
+  <section class="scrolly" aria-label="Feature walkthrough">
+
+    <!-- LEFT COLUMN: Scrollable text steps -->
+    <div class="scrolly__steps">
+
+      <article class="scrolly__step is-active" data-step="1">
+        <span class="scrolly__label">STEP 1 OF 6</span>
+        <h2 class="scrolly__heading">Krista Monitors Content Streams and Inboxes</h2>
+        <p class="scrolly__text">Krista continuously monitors shared email inboxes, content repositories, and shared drives. When a new document arrives, she reads the subject line, body text, and attachments to ensure no business context is lost. Unlike task automation tools that fire and forget, Krista maintains durable state across long-running processes. She remembers where each document is in the workflow, what data has been collected, and who needs to act next, even if a process takes days to complete.</p>
+      </article>
+
+      <article class="scrolly__step" data-step="2">
+        <span class="scrolly__label">STEP 2 OF 6</span>
+        <h2 class="scrolly__heading">Krista Classifies Documents via Native ML</h2>
+        <p class="scrolly__text">GenAI generates text. Krista generates outcomes. Rather than relying on generic LLM prompts that guess at document types, Krista builds native machine learning classifiers trained directly on your business data. These purpose-built models learn to recognize invoices, quotes, and credit memos with your terminology and formatting. Unlike competitors who stuff spaghetti code into prompts, Krista’s proprietary models mature from 50% to over 90% accuracy within weeks and get smarter with every interaction through continuous learning.</p>
+      </article>
+
+      <article class="scrolly__step" data-step="3">
+        <span class="scrolly__label">STEP 3 OF 6</span>
+        <h2 class="scrolly__heading">Krista Extracts and Validates Actionable Data</h2>
+        <p class="scrolly__text">Krista converts attachments into readable text and extracts key data points like supplier names, line items, and total amounts. She validates every extraction through confidence scoring, quantifying her certainty on each data point rather than forcing you to trust the output 100% or check it 100%. When accuracy is paramount, Krista limits responses strictly to your documents and business rules. If a data point cannot be verified, she flags it rather than filling gaps with hallucinated information.</p>
+      </article>
+
+      <article class="scrolly__step" data-step="4">
+        <span class="scrolly__label">STEP 4 OF 6</span>
+        <h2 class="scrolly__heading">Krista Orchestrates Governed Human Verification</h2>
+        <p class="scrolly__text">When Krista identifies an anomaly or low-confidence data point, she intelligently escalates the task using her native user database and role-based access controls. Unlike headless automation tools with no concept of your org chart, Krista dynamically routes exceptions to the correct expert by role, not a hardcoded email address. She provides full context, quantifies her uncertainty, and pauses the workflow without losing state, ensuring human judgment remains in control while the system continues to learn from every decision.</p>
+      </article>
+
+      <article class="scrolly__step" data-step="5">
+        <span class="scrolly__label">STEP 5 OF 6</span>
+        <h2 class="scrolly__heading">Krista Performs Three-Way Matching and Audits</h2>
+        <p class="scrolly__text">Krista retrieves related purchase orders from your accounting systems using her unified platform architecture, where every agent shares connections, memory, and context. She performs a three-way match between the invoice, PO, and goods receipt, enforcing your specific business rules to flag discrepancies. Krista's native anomaly detection learns what "normal" looks like for your business. When a vendor price spikes or a discount exceeds the norm, she flags it immediately. This is business logic that generic GenAI simply cannot perform.</p>
+      </article>
+
+      <article class="scrolly__step" data-step="6">
+        <span class="scrolly__label">STEP 6 OF 6</span>
+        <h2 class="scrolly__heading">Krista Executes Actions and Updates Systems</h2>
+        <p class="scrolly__text">Once validated, Krista automatically maps vendor IDs and cost centers to enter data into your ERP or accounting system. She logs every action as a permanent audit trail with full confidence scores, ensuring your systems of record stay accurate and compliant. Krista enforces a strict Draft, Test, Live lifecycle, so workflows are validated in a safe environment before touching live operations. Every resolved case feeds back into the platform's constructed memory, making the entire enterprise smarter.</p>
+      </article>
+
+       <article class="scrolly__step" data-step="7">
+        <span class="scrolly__label">Contact Us</span>
+        <h2 class="scrolly__heading">Get Started with Krista</h2>
+        <p class="scrolly__text">That’s the full Krista document processing workflow in action. From durable state management to native ML classification, confidence-scored extraction, governed human-in-the-loop verification, and autonomous system updates, Krista replaces agent sprawl with a unified cognitive system that is Complete in its execution, Cognitive in its intelligence, and Careful in its operation.</p>
+
+    </div>
+
+    <!-- RIGHT COLUMN: Sticky panel with swappable content -->
+    <div class="scrolly__sticky-wrap">
+      <div class="scrolly__sticky">
+
+       <!-- Panel 1: Step 1 – Monitor Content Streams and Inboxes -->
+<div class="scrolly__panel is-active" data-panel="1">
+  <div class="panel-card">
+    <div class="panel-card__header">
+      <img src="krista-mark.svg" alt="Krista" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">
+      <span class="panel-card__title">Krista Inbound Document Processing</span>
+    </div>
+    <div class="panel-card__body">
+
+      <div class="chat-bubble chat-bubble--user">
+        <div style="float: left; margin: 0 16px 12px 0; max-width: 20%;">
+          <img src="icon-ask-system.svg" alt="Ask a System" style="display: block; width: 100%; height: auto; border-radius: 8px;">
+          <div style="font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #888; margin-top: 4px; text-align: center;">Ask a System</div>
+        </div>
+        New email in ap@yourcompany.com<br>
+        From: billing@acme-supplier.com<br>
+        Subject: Invoice #INV-2024-7891 Attached<br>
+        1 attachment: invoice_7891.pdf
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Monitoring inbox and shared drives...</span>
+        New message with attachment detected. Reading subject, body, and metadata.
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Step 1 complete.</span>
+        Document received. Moving to classification.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Panel 2: Step 2 – Classify Documents via Native ML -->
+<div class="scrolly__panel" data-panel="2">
+  <div class="panel-card">
+    <div class="panel-card__header">
+      <img src="krista-mark.svg" alt="Krista" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">
+      <span class="panel-card__title">Krista Inbound Document Processing</span>
+    </div>
+    <div class="panel-card__body">
+
+      <div class="chat-bubble chat-bubble--agent">
+        <div style="float: left; margin: 0 16px 12px 0; max-width: 20%;">
+          <img src="icon-ask-krista-ai.svg" alt="Ask Krista AI" style="display: block; width: 100%; height: auto; border-radius: 8px;">
+          <div style="font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #888; margin-top: 4px; text-align: center;">Ask Krista AI</div>
+        </div>
+        <span class="chat-bubble__status">Analyzing attachment: invoice_7891.pdf</span>
+        Running native ML classifier trained on your business documents.
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Classification result:</span>
+        Document type: Invoice<br>
+        Sub-type: Vendor Purchase Invoice<br>
+        Confidence: 96%
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Step 2 complete.</span>
+        Document classified. Proceeding to data extraction.
+      </div>
+
+    </div>
+  </div>
+</div>
+    <!-- Panel 3: Step 3 – Extract and Validate Actionable Data -->
+<div class="scrolly__panel" data-panel="3">
+  <div class="panel-card">
+    <div class="panel-card__header">
+      <img src="krista-mark.svg" alt="Krista" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">
+      <span class="panel-card__title">Krista Inbound Document Processing</span>
+    </div>
+    <div class="panel-card__body">
+
+      <div class="chat-bubble chat-bubble--agent">
+        <div style="float: left; margin: 0 16px 12px 0; max-width: 20%;">
+          <img src="icon-ask-krista-ai.svg" alt="Ask Krista AI" style="display: block; width: 100%; height: auto; border-radius: 8px;">
+          <div style="font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #888; margin-top: 4px; text-align: center;">Ask Krista AI</div>
+        </div>
+        <span class="chat-bubble__status">Extracting key data points...</span>
+        Supplier: Acme Industrial Supply<br>
+        Invoice #: INV-2024-7891<br>
+        Line items: 3 detected<br>
+        Total: $14,750.00
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Confidence scoring...</span>
+        Supplier name: 99% | Line items: 97% | Total: 99%<br>
+        Overall data integrity: 98%
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Step 3 complete.</span>
+        All data extracted and validated. Proceeding to verification.
+      </div>
+
+    </div>
+  </div>
+</div>
+    
+
+        <!-- Panel 4: Step 4 – Governed Human Verification -->
+<div class="scrolly__panel" data-panel="4">
+  <div class="panel-card">
+    <div class="panel-card__header">
+      <img src="krista-mark.svg" alt="Krista" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">
+      <span class="panel-card__title">Krista Inbound Document Processing</span>
+    </div>
+    <div class="panel-card__body">
+
+      <div class="chat-bubble chat-bubble--agent">
+        <div style="float: left; margin: 0 16px 12px 0; max-width: 20%;">
+          <img src="icon-inform-person.svg" alt="Inform a Person" style="display: block; width: 100%; height: auto; border-radius: 8px;">
+          <div style="font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #888; margin-top: 4px; text-align: center;">Inform a Person</div>
+        </div>
+        <span class="chat-bubble__status">Anomaly detected</span>
+        Line item #2 unit price ($4,250) differs from catalog ($3,950).<br>
+        <strong>Flagged. Initiating governed escalation.</strong>
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Routing to AP Manager (Vendor Pricing)...</span>
+        Providing: original PDF, extracted data, flagged discrepancy, supplier history.
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Waiting for human verification...</span>
+        Krista paused. Human judgment in control.
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Step 4 complete.</span>
+        Expert confirmed: new contract rate is valid. Proceeding.
+      </div>
+
+    </div>
+  </div>
+</div>
+
+        <!-- Panel 5: Step 5 – Three-Way Matching and Audits -->
+<div class="scrolly__panel" data-panel="5">
+  <div class="panel-card">
+    <div class="panel-card__header">
+      <img src="krista-mark.svg" alt="Krista" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">
+      <span class="panel-card__title">Krista Inbound Document Processing</span>
+    </div>
+    <div class="panel-card__body">
+
+      <div class="chat-bubble chat-bubble--agent">
+        <div style="float: left; margin: 0 16px 12px 0; max-width: 20%;">
+          <img src="icon-ask-system.svg" alt="Ask a System" style="display: block; width: 100%; height: auto; border-radius: 8px;">
+          <div style="font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #888; margin-top: 4px; text-align: center;">Ask a System</div>
+        </div>
+        <span class="chat-bubble__status">Retrieving PO from accounting systems...</span>
+        Matching PO found: PO-2024-3344
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Three-way match...</span>
+        Invoice INV-2024-7891 / PO PO-2024-3344 / GR GR-8821<br>
+        Line items: 3/3 matched | Amounts: 0.2% variance
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Business rules check...</span>
+        Duplicate: PASSED | Net 30: confirmed | Under $25K: auto-approved | Fraud: none
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Step 5 complete.</span>
+        Three-way match verified. Ready for system entry.
+      </div>
+
+    </div>
+  </div>
+</div>
+
+        <!-- Panel 6: Step 6 – Execute Actions and Update Systems -->
+<div class="scrolly__panel" data-panel="6">
+  <div class="panel-card">
+    <div class="panel-card__header">
+      <img src="krista-mark.svg" alt="Krista" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">
+      <span class="panel-card__title">Krista Inbound Document Processing</span>
+    </div>
+    <div class="panel-card__body">
+
+      <div class="chat-bubble chat-bubble--agent">
+        <div style="float: left; margin: 0 16px 12px 0; max-width: 20%;">
+          <img src="icon-manage-information.svg" alt="Manage Information" style="display: block; width: 100%; height: auto; border-radius: 8px;">
+          <div style="font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #888; margin-top: 4px; text-align: center;">Manage Information</div>
+        </div>
+        <span class="chat-bubble__status">Mapping to ERP...</span>
+        Vendor ID: V-00482 | Cost center: CC-3100 | GL: 5200
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Posting to accounts payable...</span>
+        AP voucher created in SAP. Payment scheduled: April 14, 2026.
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Audit trail logged.</span>
+        Receipt, classification, verification, match, and ERP entry recorded.
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Step 6 complete.</span>
+        Systems updated. Audit secured. Ready for next document.
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- Panel 7: Final Summary & Call to Action -->
+<div class="scrolly__panel" data-panel="7">
+  <div class="panel-card">
+    <div class="panel-card__header">
+      <img src="krista-mark.svg" alt="Krista" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">
+      <span class="panel-card__title">Krista Inbound Document Processing</span>
+    </div>
+    <div class="panel-card__body">
+
+      <div class="chat-bubble chat-bubble--agent">
+        <div style="float: left; margin: 0 16px 12px 0; max-width: 20%;">
+          <img src="icon-end-conversation.svg" alt="End Conversation" style="display: block; width: 100%; height: auto; border-radius: 8px;">
+          <div style="font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #888; margin-top: 4px; text-align: center;">End Conversation</div>
+        </div>
+        <strong>That's the full Krista document processing workflow.</strong>
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        Invoices classified, extracted, validated, matched, and entered into your ERP automatically, accurately, and with a full audit trail.
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        Building this yourself requires custom ML, enterprise OCR, governed escalation, three-way matching, ERP integrations, and permanent audit trails. Most teams never finish it.
+      </div>
+
+      <!-- Call to Action Button -->
+      <div style="text-align: center; margin: 24px 0;">
+        <a href="https://krista.ai/contact/"
+           target="_blank"
+           style="display: inline-block; padding: 16px 32px; background-color: #4FD7ED; color: #FFFFFF; font-weight: bold; text-decoration: none; border-radius: 8px; font-size: 18px; box-shadow: 0 4px 12px rgba(79,215,237,0.3); transition: all 0.3s;">
+          Contact Us to Get Started
+        </a>
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden" style="text-align: center; font-size: 14px; color: #7471FF;">
+        Let's talk about how Krista can transform your document processing today.
+      </div>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+
+  </section>
+
+  <footer class="closing">
+    <p class="closing__text">That's the full document processing workflow. Simple, fast, and thorough.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
