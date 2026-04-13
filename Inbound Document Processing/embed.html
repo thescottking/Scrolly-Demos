@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Krista Document Processing - Scrollytelling Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+/* ===== DESIGN TOKENS ===== */
+:root {
+ --color-bg:          #FFFFFF;       /* Primary white for main background */
+  --color-bg-light:    #f9f9f9;       /* Light Grey like the product background */
+  --color-surface:     #FFFFFF;       /* Clean white cards/bubbles */
+  --color-text:        #191919;       /* Nearly Black – main body text, strong readability */
+  --color-text-muted:  #6B7280;       /* Grey – muted text, subtitles, secondary info */
+  --color-accent:      #4FD7ED;       /* Krista primary blue – key accents, buttons, active states */
+  --color-accent-light:#3F39FF;       /* Neon Blue – lighter/vibrant variant for hover/glow */
+  --color-callout-bg:  #F6AF1E;       /* Mandarin – warm callout background (attention-grabbing but not harsh) */
+  --color-callout-border: #EB7C80;  /* Salmon – border or accent line for callouts/status */
+  --color-code-bg:     #3F3920;       /* Deep brown – dark code/syntax block background */
+  --color-code-text:   #FFFFFF;       /* White – high-contrast text on dark code bg */
+  --color-critical:    #EB7C80;       /* Salmon – softer "critical" (errors/warnings) instead of harsh red */
+  --color-high: #e67e22;
+  --color-medium: #f1c40f;
+  --color-low: #27ae60;
+
+  --font-heading: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", "SF Mono", "Consolas", monospace;
+
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --radius-xs: 4px;
+
+  --shadow-card: 0 2px 16px rgba(72, 58, 49, 0.06);
+  --shadow-sticky: 0 4px 32px rgba(72, 58, 49, 0.10);
+
+  --sticky-top: 2rem;
+  --step-min-height: 70vh;
+  --transition-speed: 0.4s;
+}
+
+/* ===== RESET & BASE ===== */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== HERO SECTION ===== */
+.krista-scrolly-demo .hero {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 6rem 2rem 4rem;
+  text-align: center;
+}
+
+.krista-scrolly-demo .hero__label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.krista-scrolly-demo .hero__title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: var(--color-text);
+  margin-bottom: 1.25rem;
+}
+
+.krista-scrolly-demo .hero__subtitle {
+  font-size: 1.125rem;
+  color: var(--color-text-muted);
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ===== SCROLLYTELLING CONTAINER ===== */
+.krista-scrolly-demo .scrolly {
+  display: flex;
+  gap: 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 2rem 4rem;
+  position: relative;
+}
+
+/* ===== LEFT COLUMN: STEPS ===== */
+.krista-scrolly-demo .scrolly__steps {
+  flex: 0 0 40%;
+  min-width: 0;
+}
+
+.krista-scrolly-demo .scrolly__step {
+  min-height: var(--step-min-height);
+  padding: 3rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0.3;
+  transition: opacity 0.35s ease;
+}
+
+.krista-scrolly-demo .scrolly__step.is-active {
+  opacity: 1;
+}
+
+.krista-scrolly-demo .scrolly__label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.krista-scrolly-demo .scrolly__heading {
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 1rem;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.krista-scrolly-demo .scrolly__text {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--color-text-muted);
+  max-width: 40ch;
+}
+
+.krista-scrolly-demo .scrolly__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-accent);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.krista-scrolly-demo .scrolly__button:hover {
+  background: var(--color-accent-light);
+}
+
+/* ===== RIGHT COLUMN: STICKY WRAP ===== */
+.krista-scrolly-demo .scrolly__sticky-wrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.krista-scrolly-demo .scrolly__sticky {
+  position: sticky;
+  top: var(--sticky-top);
+  height: calc(100vh - var(--sticky-top) - 2rem);
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sticky);
+  border: 1px solid rgba(72, 58, 49, 0.06);
+  overflow: hidden;
+  display: grid;
+}
+
+/* ===== PANEL STACKING & TRANSITIONS ===== */
+.krista-scrolly-demo .scrolly__panel {
+  grid-area: 1 / 1;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--transition-speed) ease,
+    visibility 0s var(--transition-speed);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+.krista-scrolly-demo .scrolly__panel.is-active {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity var(--transition-speed) ease,
+    visibility 0s 0s;
+}
+
+/* ===== CALLOUT BOX ===== */
+.krista-scrolly-demo .scrolly__callout {
+  background: var(--color-callout-bg);
+  border-left: 3px solid var(--color-callout-border);
+  border-radius: var(--radius-xs);
+  padding: 0.875rem 1.125rem;
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+/* ===== PANEL 1: CHAT CARD ===== */
+.krista-scrolly-demo .panel-card {
+  background: var(--color-bg-light);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid rgba(72, 58, 49, 0.08);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.krista-scrolly-demo .panel-card__header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.75rem 1rem;
+  background: var(--color-bg);
+  border-bottom: 1px solid rgba(72, 58, 49, 0.08);
+}
+
+.krista-scrolly-demo .panel-card__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.krista-scrolly-demo .panel-card__dot--red { background: #e74c3c; }
+.krista-scrolly-demo .panel-card__dot--yellow { background: #f39c12; }
+.krista-scrolly-demo .panel-card__dot--green { background: #2ecc71; }
+
+.krista-scrolly-demo .panel-card__title {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-left: 8px;
+}
+
+.krista-scrolly-demo .panel-card__body {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.krista-scrolly-demo .chat-bubble {
+  padding: 0.875rem 1.125rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  max-width: 90%;
+}
+
+.krista-scrolly-demo .chat-bubble--user {
+  background: var(--color-accent);
+  color: #fff;
+  align-self: flex-end;
+  border-bottom-right-radius: var(--radius-xs);
+}
+
+.krista-scrolly-demo .chat-bubble--agent {
+  background: var(--color-surface);
+  color: var(--color-text);
+  align-self: flex-start;
+  border: 1px solid rgba(72, 58, 49, 0.08);
+  border-bottom-left-radius: var(--radius-xs);
+}
+
+.krista-scrolly-demo .chat-bubble__status {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-accent-light);
+  margin-bottom: 0.5rem;
+}
+
+.krista-scrolly-demo .chat-bubble--hidden {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* ===== PANEL 2: CODE BLOCK ===== */
+.krista-scrolly-demo .panel-code {
+  background: var(--color-code-bg);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.krista-scrolly-demo .panel-code__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.krista-scrolly-demo .panel-code__filename {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-code-text);
+  opacity: 0.7;
+}
+
+.krista-scrolly-demo .panel-code__badge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #2ecc71;
+  background: rgba(46, 204, 113, 0.15);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.krista-scrolly-demo .panel-code__body {
+  padding: 1.25rem;
+  flex: 1;
+  overflow: auto;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.8;
+  color: var(--color-code-text);
+  tab-size: 4;
+}
+
+.krista-scrolly-demo .panel-code__body code {
+  font-family: inherit;
+}
+
+.krista-scrolly-demo .code-keyword { color: #e8a850; }
+.krista-scrolly-demo .code-func { color: #6dbf8b; }
+.krista-scrolly-demo .code-string { color: #e07b6c; }
+.krista-scrolly-demo .code-comment { color: #7b6f65; }
+
+/* ===== PANEL 3: VISUAL/HEATMAP ===== */
+.krista-scrolly-demo .panel-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 1.5rem;
+}
+
+.krista-scrolly-demo .panel-visual__grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 360px;
+}
+
+.krista-scrolly-demo .heatmap-row {
+  display: flex;
+  gap: 8px;
+}
+
+.krista-scrolly-demo .heatmap-cell {
+  flex: 1;
+  aspect-ratio: 1;
+  border-radius: var(--radius-xs);
+  background: color-mix(in srgb, var(--color-critical) calc(var(--intensity) * 100%), var(--color-bg) calc((1 - var(--intensity)) * 100%));
+  opacity: 0.8;
+  transition: transform 0.2s ease;
+}
+
+.krista-scrolly-demo .heatmap-cell:hover {
+  transform: scale(1.08);
+  opacity: 1;
+}
+
+.krista-scrolly-demo .panel-visual__legend {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.krista-scrolly-demo .panel-visual__legend-bar {
+  width: 120px;
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(to right, var(--color-bg), var(--color-critical));
+}
+
+.krista-scrolly-demo .panel-visual__legend-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.krista-scrolly-demo .panel-visual__caption {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* ===== PANEL 4: METRICS ===== */
+.krista-scrolly-demo .panel-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.krista-scrolly-demo .panel-metrics__title {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.krista-scrolly-demo .metric-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.krista-scrolly-demo .metric-row__label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-text);
+  width: 60px;
+  flex-shrink: 0;
+}
+
+.krista-scrolly-demo .metric-row__bar {
+  flex: 1;
+  height: 10px;
+  background: var(--color-bg);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.krista-scrolly-demo .metric-row__fill {
+  height: 100%;
+  width: var(--width);
+  border-radius: 5px;
+  transition: width 0.6s ease;
+}
+
+.krista-scrolly-demo .metric-row__fill--critical { background: var(--color-critical); }
+.krista-scrolly-demo .metric-row__fill--high { background: var(--color-high); }
+.krista-scrolly-demo .metric-row__fill--medium { background: var(--color-medium); }
+.krista-scrolly-demo .metric-row__fill--low { background: var(--color-low); }
+
+.krista-scrolly-demo .metric-row__value {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text);
+  width: 24px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ===== PANEL 5: REPORT ===== */
+.krista-scrolly-demo .panel-report {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.krista-scrolly-demo .panel-report__header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.krista-scrolly-demo .panel-report__icon {
+  font-size: 2rem;
+}
+
+.krista-scrolly-demo .panel-report__title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.krista-scrolly-demo .panel-report__meta {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.krista-scrolly-demo .panel-report__section {
+  background: var(--color-bg-light);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.125rem;
+  border: 1px solid rgba(72, 58, 49, 0.06);
+}
+
+.krista-scrolly-demo .panel-report__section-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 0.375rem;
+}
+
+.krista-scrolly-demo .panel-report__section-text {
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.krista-scrolly-demo .panel-report__section-text code {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  background: var(--color-bg);
+  padding: 1px 5px;
+  border-radius: 3px;
+  color: var(--color-accent);
+}
+
+.krista-scrolly-demo .panel-report__severity {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.krista-scrolly-demo .panel-report__severity--critical {
+  background: rgba(192, 57, 43, 0.12);
+  color: var(--color-critical);
+}
+
+.krista-scrolly-demo .panel-report__severity--high {
+  background: rgba(230, 126, 34, 0.12);
+  color: var(--color-high);
+}
+
+/* ===== PANEL 6: CTA ===== */
+.krista-scrolly-demo .panel-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+  gap: 1rem;
+}
+
+.krista-scrolly-demo .panel-cta__icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(39, 174, 96, 0.12);
+  color: var(--color-low);
+  font-size: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.krista-scrolly-demo .panel-cta__title {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.krista-scrolly-demo .panel-cta__text {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  max-width: 36ch;
+  line-height: 1.6;
+}
+
+.krista-scrolly-demo .panel-cta__stats {
+  display: flex;
+  gap: 2rem;
+  margin: 0.75rem 0;
+}
+
+.krista-scrolly-demo .panel-cta__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.krista-scrolly-demo .panel-cta__stat-value {
+  font-family: var(--font-mono);
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.krista-scrolly-demo .panel-cta__stat-label {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.krista-scrolly-demo .panel-cta__button {
+  margin-top: 0.5rem;
+  padding: 0.75rem 2rem;
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.krista-scrolly-demo .panel-cta__button:hover {
+  background: var(--color-text);
+  transform: translateY(-1px);
+}
+
+/* ===== FOOTER ===== */
+.krista-scrolly-demo .closing {
+  text-align: center;
+  padding: 6rem 2rem;
+}
+
+.krista-scrolly-demo .closing__text {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  color: var(--color-text-muted);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+.krista-scrolly-demo .hero {
+    padding: 4rem 1.5rem 2rem;
+  }
+
+.krista-scrolly-demo .scrolly {
+    flex-direction: column;
+    gap: 0;
+    padding: 0 1rem 2rem;
+  }
+
+.krista-scrolly-demo .scrolly__sticky-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    height: 50vh;
+    order: -1;
+  }
+
+.krista-scrolly-demo .scrolly__sticky {
+    position: relative;
+    top: 0;
+    height: 100%;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+  }
+
+.krista-scrolly-demo .scrolly__steps {
+    flex: 1;
+  }
+
+.krista-scrolly-demo .scrolly__step {
+    min-height: 50vh;
+    padding: 2rem 0;
+  }
+
+.krista-scrolly-demo .scrolly__heading {
+    font-size: 1.35rem;
+  }
+
+.krista-scrolly-demo .scrolly__panel {
+    padding: 1.25rem;
+  }
+}
+
+  </style>
+</head>
+<body style="margin: 0; padding: 0;">
+
+<div class="krista-scrolly-demo">
+
+
+  <header class="hero">
+    <span class="hero__label">Krista executes end-to-end business processes as a unified, cognitive system.</span>
+    <h1 class="hero__title">How the Krista Document Process Works</h1>
+    <p class="hero__subtitle">Scroll down to explore each stage of the workflow. The panel on the right updates as you progress through each step.</p>
+  </header>
+
+  <section class="scrolly" aria-label="Feature walkthrough">
+
+    <!-- LEFT COLUMN: Scrollable text steps -->
+    <div class="scrolly__steps">
+
+      <article class="scrolly__step is-active" data-step="1">
+        <span class="scrolly__label">STEP 1 OF 6</span>
+        <h2 class="scrolly__heading">Krista Monitors Content Streams and Inboxes</h2>
+        <p class="scrolly__text">Krista continuously monitors shared email inboxes, content repositories, and shared drives. When a new document arrives, she reads the subject line, body text, and attachments to ensure no business context is lost. Unlike task automation tools that fire and forget, Krista maintains durable state across long-running processes. She remembers where each document is in the workflow, what data has been collected, and who needs to act next, even if a process takes days to complete.</p>
+      </article>
+
+      <article class="scrolly__step" data-step="2">
+        <span class="scrolly__label">STEP 2 OF 6</span>
+        <h2 class="scrolly__heading">Krista Classifies Documents via Native ML</h2>
+        <p class="scrolly__text">GenAI generates text. Krista generates outcomes. Rather than relying on generic LLM prompts that guess at document types, Krista builds native machine learning classifiers trained directly on your business data. These purpose-built models learn to recognize invoices, quotes, and credit memos with your terminology and formatting. Unlike competitors who stuff spaghetti code into prompts, Krista’s proprietary models mature from 50% to over 90% accuracy within weeks and get smarter with every interaction through continuous learning.</p>
+      </article>
+
+      <article class="scrolly__step" data-step="3">
+        <span class="scrolly__label">STEP 3 OF 6</span>
+        <h2 class="scrolly__heading">Krista Extracts and Validates Actionable Data</h2>
+        <p class="scrolly__text">Krista converts attachments into readable text and extracts key data points like supplier names, line items, and total amounts. She validates every extraction through confidence scoring, quantifying her certainty on each data point rather than forcing you to trust the output 100% or check it 100%. When accuracy is paramount, Krista limits responses strictly to your documents and business rules. If a data point cannot be verified, she flags it rather than filling gaps with hallucinated information.</p>
+      </article>
+
+      <article class="scrolly__step" data-step="4">
+        <span class="scrolly__label">STEP 4 OF 6</span>
+        <h2 class="scrolly__heading">Krista Orchestrates Governed Human Verification</h2>
+        <p class="scrolly__text">When Krista identifies an anomaly or low-confidence data point, she intelligently escalates the task using her native user database and role-based access controls. Unlike headless automation tools with no concept of your org chart, Krista dynamically routes exceptions to the correct expert by role, not a hardcoded email address. She provides full context, quantifies her uncertainty, and pauses the workflow without losing state, ensuring human judgment remains in control while the system continues to learn from every decision.</p>
+      </article>
+
+      <article class="scrolly__step" data-step="5">
+        <span class="scrolly__label">STEP 5 OF 6</span>
+        <h2 class="scrolly__heading">Krista Performs Three-Way Matching and Audits</h2>
+        <p class="scrolly__text">Krista retrieves related purchase orders from your accounting systems using her unified platform architecture, where every agent shares connections, memory, and context. She performs a three-way match between the invoice, PO, and goods receipt, enforcing your specific business rules to flag discrepancies. Krista's native anomaly detection learns what "normal" looks like for your business. When a vendor price spikes or a discount exceeds the norm, she flags it immediately. This is business logic that generic GenAI simply cannot perform.</p>
+      </article>
+
+      <article class="scrolly__step" data-step="6">
+        <span class="scrolly__label">STEP 6 OF 6</span>
+        <h2 class="scrolly__heading">Krista Executes Actions and Updates Systems</h2>
+        <p class="scrolly__text">Once validated, Krista automatically maps vendor IDs and cost centers to enter data into your ERP or accounting system. She logs every action as a permanent audit trail with full confidence scores, ensuring your systems of record stay accurate and compliant. Krista enforces a strict Draft, Test, Live lifecycle, so workflows are validated in a safe environment before touching live operations. Every resolved case feeds back into the platform's constructed memory, making the entire enterprise smarter.</p>
+      </article>
+
+       <article class="scrolly__step" data-step="7">
+        <span class="scrolly__label">Contact Us</span>
+        <h2 class="scrolly__heading">Get Started with Krista</h2>
+        <p class="scrolly__text">That’s the full Krista document processing workflow in action. From durable state management to native ML classification, confidence-scored extraction, governed human-in-the-loop verification, and autonomous system updates, Krista replaces agent sprawl with a unified cognitive system that is Complete in its execution, Cognitive in its intelligence, and Careful in its operation.</p>
+
+    </div>
+
+    <!-- RIGHT COLUMN: Sticky panel with swappable content -->
+    <div class="scrolly__sticky-wrap">
+      <div class="scrolly__sticky">
+
+       <!-- Panel 1: Step 1 – Monitor Content Streams and Inboxes -->
+<div class="scrolly__panel is-active" data-panel="1">
+  <div class="panel-card">
+    <div class="panel-card__header">
+      <img src="https://thescottking.github.io/Scrolly-Demos/Inbound%20Document%20Processing/krista-mark.svg" alt="Krista" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">
+      <span class="panel-card__title">Krista Inbound Document Processing</span>
+    </div>
+    <div class="panel-card__body">
+
+      <div class="chat-bubble chat-bubble--user">
+        <div style="float: left; margin: 0 16px 12px 0; max-width: 20%;">
+          <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzIiIGhlaWdodD0iNzIiIHZpZXdCb3g9IjAgMCA3MiA3MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTAgMjBDMCA4Ljk1NDMxIDguOTU0MzEgMCAyMCAwSDUyQzYzLjA0NTcgMCA3MiA4Ljk1NDMxIDcyIDIwVjUyQzcyIDYzLjA0NTcgNjMuMDQ1NyA3MiA1MiA3MkgyMEM4Ljk1NDMxIDcyIDAgNjMuMDQ1NyAwIDUyVjIwWiIgZmlsbD0iIzQwQ0U1MyIgZmlsbC1vcGFjaXR5PSIwLjE1Ii8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMjcgMThDMjUuODk1NCAxOCAyNSAxOC44OTU0IDI1IDIwVjUyQzI1IDUzLjEwNDYgMjUuODk1NCA1NCAyNyA1NEg0NUM0Ni4xMDQ2IDU0IDQ3IDUzLjEwNDYgNDcgNTJWMjBDNDcgMTguODk1NCA0Ni4xMDQ2IDE4IDQ1IDE4SDI3Wk00MSAyN0M0MSAyNi40NDc3IDQwLjU1MjMgMjYgNDAgMjZIMzJDMzEuNDQ3NyAyNiAzMSAyNi40NDc3IDMxIDI3QzMxIDI3LjU1MjMgMzEuNDQ3NyAyOCAzMiAyOEg0MEM0MC41NTIzIDI4IDQxIDI3LjU1MjMgNDEgMjdaTTM5IDQxQzM5IDQyLjY1NjkgMzcuNjU2OSA0NCAzNiA0NEMzNC4zNDMxIDQ0IDMzIDQyLjY1NjkgMzMgNDFDMzMgMzkuMzQzMSAzNC4zNDMxIDM4IDM2IDM4QzM3LjY1NjkgMzggMzkgMzkuMzQzMSAzOSA0MVpNNDEgMzJDNDEgMzEuNDQ3NyA0MC41NTIzIDMxIDQwIDMxSDMyQzMxLjQ0NzcgMzEgMzEgMzEuNDQ3NyAzMSAzMkMzMSAzMi41NTIzIDMxLjQ0NzcgMzMgMzIgMzNINDBDNDAuNTUyMyAzMyA0MSAzMi41NTIzIDQxIDMyWiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yMyAyMEMyMyAxNy43OTA5IDI0Ljc5MDkgMTYgMjcgMTZINDVDNDcuMjA5MSAxNiA0OSAxNy43OTA5IDQ5IDIwVjUyQzQ5IDU0LjIwOTEgNDcuMjA5MSA1NiA0NSA1NkgyN0MyNC43OTA5IDU2IDIzIDU0LjIwOTEgMjMgNTJWMjBaTTM2IDQyQzM2LjU1MjMgNDIgMzcgNDEuNTUyMyAzNyA0MUMzNyA0MC40NDc3IDM2LjU1MjMgNDAgMzYgNDBDMzUuNDQ3NyA0MCAzNSA0MC40NDc3IDM1IDQxQzM1IDQxLjU1MjMgMzUuNDQ3NyA0MiAzNiA0MlpNMzIgMzFINDBDNDAuNTUyMyAzMSA0MSAzMS40NDc3IDQxIDMyQzQxIDMyLjU1MjMgNDAuNTUyMyAzMyA0MCAzM0gzMkMzMS40NDc3IDMzIDMxIDMyLjU1MjMgMzEgMzJDMzEgMzEuNDQ3NyAzMS40NDc3IDMxIDMyIDMxWk0zMiAyNkg0MEM0MC41NTIzIDI2IDQxIDI2LjQ0NzcgNDEgMjdDNDEgMjcuNTUyMyA0MC41NTIzIDI4IDQwIDI4SDMyQzMxLjQ0NzcgMjggMzEgMjcuNTUyMyAzMSAyN0MzMSAyNi40NDc3IDMxLjQ0NzcgMjYgMzIgMjZaTTI1IDIwQzI1IDE4Ljg5NTQgMjUuODk1NCAxOCAyNyAxOEg0NUM0Ni4xMDQ2IDE4IDQ3IDE4Ljg5NTQgNDcgMjBWNTJDNDcgNTMuMTA0NiA0Ni4xMDQ2IDU0IDQ1IDU0SDI3QzI1Ljg5NTQgNTQgMjUgNTMuMTA0NiAyNSA1MlYyMFpNMzYgNDRDMzcuNjU2OSA0NCAzOSA0Mi42NTY5IDM5IDQxQzM5IDM5LjM0MzEgMzcuNjU2OSAzOCAzNiAzOEMzNC4zNDMxIDM4IDMzIDM5LjM0MzEgMzMgNDFDMzMgNDIuNjU2OSAzNC4zNDMxIDQ0IDM2IDQ0WiIgZmlsbD0iIzQwQ0U1MyIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTU4IDMyLjI1QzU4LjQxNDIgMzIuMjUgNTguNzUgMzIuNTg1OCA1OC43NSAzM1YzOS4xODkzTDYxLjQ2OTcgMzYuNDY5N0M2MS43NjI2IDM2LjE3NjggNjIuMjM3NCAzNi4xNzY4IDYyLjUzMDMgMzYuNDY5N0M2Mi44MjMyIDM2Ljc2MjYgNjIuODIzMiAzNy4yMzc0IDYyLjUzMDMgMzcuNTMwM0w1OC41MzAzIDQxLjUzMDNDNTguMjM3NCA0MS44MjMyIDU3Ljc2MjYgNDEuODIzMiA1Ny40Njk3IDQxLjUzMDNMNTMuNDY5NyAzNy41MzAzQzUzLjE3NjggMzcuMjM3NCA1My4xNzY4IDM2Ljc2MjYgNTMuNDY5NyAzNi40Njk3QzUzLjc2MjYgMzYuMTc2OCA1NC4yMzc0IDM2LjE3NjggNTQuNTMwMyAzNi40Njk3TDU3LjI1IDM5LjE4OTNWMzNDNTcuMjUgMzIuNTg1OCA1Ny41ODU4IDMyLjI1IDU4IDMyLjI1WiIgZmlsbD0iIzQwQ0U1MyIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTE0IDQxLjc1QzE0LjQxNDIgNDEuNzUgMTQuNzUgNDEuNDE0MiAxNC43NSA0MVYzNC44MTA3TDE3LjQ2OTcgMzcuNTMwM0MxNy43NjI2IDM3LjgyMzIgMTguMjM3NCAzNy44MjMyIDE4LjUzMDMgMzcuNTMwM0MxOC44MjMyIDM3LjIzNzQgMTguODIzMiAzNi43NjI2IDE4LjUzMDMgMzYuNDY5N0wxNC41MzAzIDMyLjQ2OTdDMTQuMjM3NCAzMi4xNzY4IDEzLjc2MjYgMzIuMTc2OCAxMy40Njk3IDMyLjQ2OTdMOS40Njk2NyAzNi40Njk3QzkuMTc2NzggMzYuNzYyNiA5LjE3Njc4IDM3LjIzNzQgOS40Njk2NyAzNy41MzAzQzkuNzYyNTYgMzcuODIzMiAxMC4yMzc0IDM3LjgyMzIgMTAuNTMwMyAzNy41MzAzTDEzLjI1IDM0LjgxMDdWNDFDMTMuMjUgNDEuNDE0MiAxMy41ODU4IDQxLjc1IDE0IDQxLjc1WiIgZmlsbD0iIzQwQ0U1MyIvPgo8cGF0aCBvcGFjaXR5PSIwLjIiIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNDcgNDhIMjVWNTJDMjUgNTMuMTA0NiAyNS44OTU0IDU0IDI3IDU0SDQ1QzQ2LjEwNDYgNTQgNDcgNTMuMTA0NiA0NyA1MlY0OFoiIGZpbGw9IiM0MENFNTMiLz4KPC9zdmc+Cg==" alt="Ask a System" style="display: block; width: 100%; height: auto; border-radius: 8px;">
+          <div style="font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #888; margin-top: 4px; text-align: center;">Ask a System</div>
+        </div>
+        New email in ap@yourcompany.com<br>
+        From: billing@acme-supplier.com<br>
+        Subject: Invoice #INV-2024-7891 Attached<br>
+        1 attachment: invoice_7891.pdf
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Monitoring shared inboxes...</span>
+        New message with attachment detected. Reading subject, body, and metadata.
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Step 1 complete.</span>
+        Document received. Moving to classification.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Panel 2: Step 2 – Classify Documents via Native ML -->
+<div class="scrolly__panel" data-panel="2">
+  <div class="panel-card">
+    <div class="panel-card__header">
+      <img src="https://thescottking.github.io/Scrolly-Demos/Inbound%20Document%20Processing/krista-mark.svg" alt="Krista" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">
+      <span class="panel-card__title">Krista Inbound Document Processing</span>
+    </div>
+    <div class="panel-card__body">
+
+      <div class="chat-bubble chat-bubble--agent">
+        <div style="float: left; margin: 0 16px 12px 0; max-width: 20%;">
+          <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzIiIGhlaWdodD0iNzIiIHZpZXdCb3g9IjAgMCA3MiA3MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjcyIiBoZWlnaHQ9IjcyIiByeD0iMjAiIGZpbGw9IiMwMDlCRjQiIGZpbGwtb3BhY2l0eT0iMC4xNSIvPgo8cmVjdCB4PSIxOS42MjE2IiB5PSIxOS42MjE2IiB3aWR0aD0iMzEuNzU2OCIgaGVpZ2h0PSIzMS43NTY4IiByeD0iMiIgZmlsbD0id2hpdGUiLz4KPHJlY3QgeD0iMjAuODkxOCIgeT0iNDguODM3OCIgd2lkdGg9IjI5LjIxNjIiIGhlaWdodD0iMi41NDA1NCIgcng9IjEiIGZpbGw9IiNEQ0Y3RkIiLz4KPHJlY3QgeD0iMjUuOTczIiB5PSIyNS45NzMiIHdpZHRoPSIxOS4wNTQxIiBoZWlnaHQ9IjE5LjA1NDEiIHJ4PSIxIiBmaWxsPSIjRENGN0ZCIi8+CjxwYXRoIGQ9Ik0zNC4zNjgyIDM4LjY5NTNWMzUuMjg0MkMzNC4zNjgyIDM1LjAzMzUgMzQuMzI0OSAzNC44MTcxIDM0LjIzODMgMzQuNjM0OEMzNC4xNTE3IDM0LjQ1MjUgMzQuMDE5NSAzNC4zMTEyIDMzLjg0MTggMzQuMjEwOUMzMy42NjQxIDM0LjExMDcgMzMuNDM4NSAzNC4wNjA1IDMzLjE2NSAzNC4wNjA1QzMyLjkyMzUgMzQuMDYwNSAzMi43MTE2IDM0LjEwMTYgMzIuNTI5MyAzNC4xODM2QzMyLjM1MTYgMzQuMjY1NiAzMi4yMTQ4IDM0LjM4MTggMzIuMTE5MSAzNC41MzIyQzMyLjAyMzQgMzQuNjc4MSAzMS45NzU2IDM0Ljg0NjcgMzEuOTc1NiAzNS4wMzgxSDMwLjE2NDFDMzAuMTY0MSAzNC43MzI3IDMwLjIzNyAzNC40NDM0IDMwLjM4MjggMzQuMTY5OUMzMC41Mjg2IDMzLjg5MTkgMzAuNzM2IDMzLjY0NTggMzEuMDA0OSAzMy40MzE2QzMxLjI3ODMgMzMuMjEyOSAzMS42MDQyIDMzLjA0MiAzMS45ODI0IDMyLjkxODlDMzIuMzY1MiAzMi43OTU5IDMyLjc5MzYgMzIuNzM0NCAzMy4yNjc2IDMyLjczNDRDMzMuODI4MSAzMi43MzQ0IDM0LjMyNzEgMzIuODMwMSAzNC43NjQ2IDMzLjAyMTVDMzUuMjA2NyAzMy4yMDgzIDM1LjU1MzEgMzMuNDkwOSAzNS44MDM3IDMzLjg2OTFDMzYuMDU4OSAzNC4yNDc0IDM2LjE4NjUgMzQuNzIzNiAzNi4xODY1IDM1LjI5NzlWMzguNTI0NEMzNi4xODY1IDM4Ljg5MzYgMzYuMjA5MyAzOS4yMTAzIDM2LjI1NDkgMzkuNDc0NkMzNi4zMDUgMzkuNzM0NCAzNi4zNzc5IDM5Ljk2IDM2LjQ3MzYgNDAuMTUxNFY0MC4yNjc2SDM0LjYzNDhDMzQuNTQ4MiA0MC4wODA3IDM0LjQ4MjEgMzkuODQzOCAzNC40MzY1IDM5LjU1NjZDMzQuMzkxIDM5LjI2NSAzNC4zNjgyIDM4Ljk3NzkgMzQuMzY4MiAzOC42OTUzWk0zNC42MjExIDM1Ljc2MjdMMzQuNjM0OCAzNi44MzU5SDMzLjQ5MzJDMzMuMjEwNiAzNi44MzU5IDMyLjk2MjIgMzYuODY1NiAzMi43NDggMzYuOTI0OEMzMi41MzM5IDM2Ljk3OTUgMzIuMzU4NCAzNy4wNjE1IDMyLjIyMTcgMzcuMTcwOUMzMi4wODUgMzcuMjc1NyAzMS45ODI0IDM3LjQwMzMgMzEuOTE0MSAzNy41NTM3QzMxLjg0NTcgMzcuNjk5NSAzMS44MTE1IDM3Ljg2NTkgMzEuODExNSAzOC4wNTI3QzMxLjgxMTUgMzguMjM1IDMxLjg1MjUgMzguMzk5MSAzMS45MzQ2IDM4LjU0NDlDMzIuMDIxMiAzOC42OTA4IDMyLjE0NDIgMzguODA3IDMyLjMwMzcgMzguODkzNkMzMi40Njc4IDM4Ljk3NTYgMzIuNjU5MiAzOS4wMTY2IDMyLjg3NzkgMzkuMDE2NkMzMy4xOTY5IDM5LjAxNjYgMzMuNDc0OSAzOC45NTI4IDMzLjcxMTkgMzguODI1MkMzMy45NDg5IDM4LjY5MyAzNC4xMzM1IDM4LjUzMzUgMzQuMjY1NiAzOC4zNDY3QzM0LjM5NzggMzguMTU5OCAzNC40Njg0IDM3Ljk4MjEgMzQuNDc3NSAzNy44MTM1TDM0Ljk5NzEgMzguNTkyOEMzNC45MzMzIDM4Ljc3OTYgMzQuODM3NiAzOC45Nzc5IDM0LjcxIDM5LjE4NzVDMzQuNTgyNCAzOS4zOTcxIDM0LjQxODMgMzkuNTkzMSAzNC4yMTc4IDM5Ljc3NTRDMzQuMDE3MyAzOS45NTc3IDMzLjc3NTcgNDAuMTA4MSAzMy40OTMyIDQwLjIyNjZDMzMuMjEwNiA0MC4zNDUxIDMyLjg4MjUgNDAuNDA0MyAzMi41MDg4IDQwLjQwNDNDMzIuMDMwMyA0MC40MDQzIDMxLjYwMTkgNDAuMzA4NiAzMS4yMjM2IDQwLjExNzJDMzAuODQ1NCAzOS45MjU4IDMwLjU0NjkgMzkuNjYzNyAzMC4zMjgxIDM5LjMzMTFDMzAuMTA5NCAzOC45OTg0IDMwIDM4LjYyMDEgMzAgMzguMTk2M0MzMCAzNy44MDQ0IDMwLjA3MjkgMzcuNDU4IDMwLjIxODggMzcuMTU3MkMzMC4zNjQ2IDM2Ljg1NjQgMzAuNTgxMSAzNi42MDM1IDMwLjg2ODIgMzYuMzk4NEMzMS4xNTUzIDM2LjE4ODggMzEuNTEwNyAzNi4wMzE2IDMxLjkzNDYgMzUuOTI2OEMzMi4zNjMgMzUuODE3NCAzMi44NTI5IDM1Ljc2MjcgMzMuNDA0MyAzNS43NjI3SDM0LjYyMTFaIiBmaWxsPSIjMDA5QkY0Ii8+CjxwYXRoIGQ9Ik0zOS43Mjc1IDMyLjg3MTFWNDAuMjY3NkgzNy45MTZWMzIuODcxMUgzOS43Mjc1Wk0zNy43OTMgMzAuOTM2NUMzNy43OTMgMzAuNjY3NiAzNy44ODQxIDMwLjQ0NDMgMzguMDY2NCAzMC4yNjY2QzM4LjI1MzMgMzAuMDg4OSAzOC41MDM5IDMwIDM4LjgxODQgMzBDMzkuMTMyOCAzMCAzOS4zODEyIDMwLjA4ODkgMzkuNTYzNSAzMC4yNjY2QzM5Ljc1MDMgMzAuNDQ0MyAzOS44NDM4IDMwLjY2NzYgMzkuODQzOCAzMC45MzY1QzM5Ljg0MzggMzEuMjAwOCAzOS43NTAzIDMxLjQyMTkgMzkuNTYzNSAzMS41OTk2QzM5LjM4MTIgMzEuNzc3MyAzOS4xMzI4IDMxLjg2NjIgMzguODE4NCAzMS44NjYyQzM4LjUwMzkgMzEuODY2MiAzOC4yNTMzIDMxLjc3NzMgMzguMDY2NCAzMS41OTk2QzM3Ljg4NDEgMzEuNDIxOSAzNy43OTMgMzEuMjAwOCAzNy43OTMgMzAuOTM2NVoiIGZpbGw9IiMwMDlCRjQiLz4KPHBhdGggZD0iTTQ2LjU2MzUgMTkuNjAxM0M0OS4yMzQ0IDE5LjYwMTMgNTEuMzk4NiAyMS43NjU5IDUxLjM5ODYgMjQuNDM2NVY0Ni41NjM1QzUxLjM5ODYgNDkuMjM0NCA0OS4yMzQxIDUxLjM5ODYgNDYuNTYzNSA1MS4zOTg2SDI0LjQzNjVDMjEuNzY1NiA1MS4zOTg2IDE5LjYwMTMgNDkuMjM0MSAxOS42MDEzIDQ2LjU2MzVWMjQuNDM2NUMxOS42MDEzIDIxLjc2NTYgMjEuNzY1OCAxOS42MDEzIDI0LjQzNjUgMTkuNjAxM0g0Ni41NjM1WiIgc3Ryb2tlPSIjMDA5QkY0IiBzdHJva2Utd2lkdGg9IjIuNSIvPgo8cGF0aCBkPSJNNDIuMzE5NSAyNS45NTI3QzQzLjgyNDkgMjUuOTUyNyA0NS4wNDc0IDI3LjE3NTIgNDUuMDQ3NCAyOC42ODA2VjQyLjMxOTRDNDUuMDQ3NCA0My44MjQ4IDQzLjgyNDkgNDUuMDQ3MyA0Mi4zMTk1IDQ1LjA0NzNIMjguNjgwNkMyNy4xNzUyIDQ1LjA0NzMgMjUuOTUyOCA0My44MjQ4IDI1Ljk1MjggNDIuMzE5NFYyOC42ODA2QzI1Ljk1MjggMjcuMTc1MiAyNy4xNzUyIDI1Ljk1MjcgMjguNjgwNiAyNS45NTI3SDQyLjMxOTVaIiBzdHJva2U9IiMwMDlCRjQiIHN0cm9rZS13aWR0aD0iMi41Ii8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMzYuMzYzNiAxOC4zNTE0VjEzLjI3MDNDMzYuMzYzNiAxMi41NjkxIDM1LjkxNTcgMTIgMzUuMzYzNiAxMkMzNC44MTE2IDEyIDM0LjM2MzYgMTIuNTY5MSAzNC4zNjM2IDEzLjI3MDNWMTguMzUxNEMzNC4zNjM2IDE5LjA1MjYgMzQuODExNiAxOS42MjE2IDM1LjM2MzYgMTkuNjIxNkMzNS45MTU3IDE5LjYyMTYgMzYuMzYzNiAxOS4wNTI2IDM2LjM2MzYgMTguMzUxNFoiIGZpbGw9IiMwMDlCRjQiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xOC4zNTE0IDMzLjYxMjNIMTMuMjcwM0MxMi41NjkxIDMzLjYxMjMgMTIgMzQuMDYwMyAxMiAzNC42MTIzQzEyIDM1LjE2NDMgMTIuNTY5MSAzNS42MTIzIDEzLjI3MDMgMzUuNjEyM0gxOC4zNTE0QzE5LjA1MjYgMzUuNjEyMyAxOS42MjE2IDM1LjE2NDMgMTkuNjIxNiAzNC42MTIzQzE5LjYyMTYgMzQuMDYwMyAxOS4wNTI2IDMzLjYxMjMgMTguMzUxNCAzMy42MTIzWiIgZmlsbD0iIzAwOUJGNCIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTM2LjM2MzYgNTcuNzI5N1Y1Mi42NDg3QzM2LjM2MzYgNTEuOTQ3NSAzNS45MTU3IDUxLjM3ODQgMzUuMzYzNiA1MS4zNzg0QzM0LjgxMTYgNTEuMzc4NCAzNC4zNjM2IDUxLjk0NzUgMzQuMzYzNiA1Mi42NDg3VjU3LjcyOTdDMzQuMzYzNiA1OC40MzA5IDM0LjgxMTYgNTkgMzUuMzYzNiA1OUMzNS45MTU3IDU5IDM2LjM2MzYgNTguNDMwOSAzNi4zNjM2IDU3LjcyOTdaIiBmaWxsPSIjMDA5QkY0Ii8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNTcuNzI5OCAzMy41OTQ2SDUyLjY0ODdDNTEuOTQ3NSAzMy41OTQ2IDUxLjM3ODQgMzQuMDQyNiA1MS4zNzg0IDM0LjU5NDZDNTEuMzc4NCAzNS4xNDY2IDUxLjk0NzUgMzUuNTk0NiA1Mi42NDg3IDM1LjU5NDZINTcuNzI5OEM1OC40MzEgMzUuNTk0NiA1OSAzNS4xNDY2IDU5IDM0LjU5NDZDNTkgMzQuMDQyNiA1OC40MzEgMzMuNTk0NiA1Ny43Mjk4IDMzLjU5NDZaIiBmaWxsPSIjMDA5QkY0Ii8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNDYuMDI0NyAxOC4zNTE0VjEzLjI3MDNDNDYuMDI0NyAxMi41NjkxIDQ1LjU3NjcgMTIgNDUuMDI0NyAxMkM0NC40NzI2IDEyIDQ0LjAyNDcgMTIuNTY5MSA0NC4wMjQ3IDEzLjI3MDNWMTguMzUxNEM0NC4wMjQ3IDE5LjA1MjYgNDQuNDcyNiAxOS42MjE2IDQ1LjAyNDcgMTkuNjIxNkM0NS41NzY3IDE5LjYyMTYgNDYuMDI0NyAxOS4wNTI2IDQ2LjAyNDcgMTguMzUxNFoiIGZpbGw9IiMwMDlCRjQiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xOC4zNTE0IDIzLjk1MTRIMTMuMjcwM0MxMi41NjkxIDIzLjk1MTQgMTIgMjQuMzk5NCAxMiAyNC45NTE0QzEyIDI1LjUwMzQgMTIuNTY5MSAyNS45NTE0IDEzLjI3MDMgMjUuOTUxNEgxOC4zNTE0QzE5LjA1MjYgMjUuOTUxNCAxOS42MjE2IDI1LjUwMzQgMTkuNjIxNiAyNC45NTE0QzE5LjYyMTYgMjQuMzk5NCAxOS4wNTI2IDIzLjk1MTQgMTguMzUxNCAyMy45NTE0WiIgZmlsbD0iIzAwOUJGNCIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTQ2LjAyNDcgNTcuNzI5N1Y1Mi42NDg3QzQ2LjAyNDcgNTEuOTQ3NSA0NS41NzY3IDUxLjM3ODQgNDUuMDI0NyA1MS4zNzg0QzQ0LjQ3MjYgNTEuMzc4NCA0NC4wMjQ3IDUxLjk0NzUgNDQuMDI0NyA1Mi42NDg3VjU3LjcyOTdDNDQuMDI0NyA1OC40MzA5IDQ0LjQ3MjYgNTkgNDUuMDI0NyA1OUM0NS41NzY3IDU5IDQ2LjAyNDcgNTguNDMwOSA0Ni4wMjQ3IDU3LjcyOTdaIiBmaWxsPSIjMDA5QkY0Ii8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNTcuNzI5OCAyMy40MzI0SDUyLjY0ODdDNTEuOTQ3NSAyMy40MzI0IDUxLjM3ODQgMjMuODgwNCA1MS4zNzg0IDI0LjQzMjRDNTEuMzc4NCAyNC45ODQ0IDUxLjk0NzUgMjUuNDMyNCA1Mi42NDg3IDI1LjQzMjRINTcuNzI5OEM1OC40MzEgMjUuNDMyNCA1OSAyNC45ODQ0IDU5IDI0LjQzMjRDNTkgMjMuODgwNCA1OC40MzEgMjMuNDMyNCA1Ny43Mjk4IDIzLjQzMjRaIiBmaWxsPSIjMDA5QkY0Ii8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMjYuNzAyOCAxOC4zNTE0VjEzLjI3MDNDMjYuNzAyOCAxMi41NjkxIDI2LjI1NDggMTIgMjUuNzAyOCAxMkMyNS4xNTA3IDEyIDI0LjcwMjggMTIuNTY5MSAyNC43MDI4IDEzLjI3MDNWMTguMzUxNEMyNC43MDI4IDE5LjA1MjYgMjUuMTUwNyAxOS42MjE2IDI1LjcwMjggMTkuNjIxNkMyNi4yNTQ4IDE5LjYyMTYgMjYuNzAyOCAxOS4wNTI2IDI2LjcwMjggMTguMzUxNFoiIGZpbGw9IiMwMDlCRjQiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xOC4zNTE0IDQzLjI3MzNIMTMuMjcwM0MxMi41NjkxIDQzLjI3MzMgMTIgNDMuNzIxMyAxMiA0NC4yNzMzQzEyIDQ0LjgyNTMgMTIuNTY5MSA0NS4yNzMzIDEzLjI3MDMgNDUuMjczM0gxOC4zNTE0QzE5LjA1MjYgNDUuMjczMyAxOS42MjE2IDQ0LjgyNTMgMTkuNjIxNiA0NC4yNzMzQzE5LjYyMTYgNDMuNzIxMyAxOS4wNTI2IDQzLjI3MzMgMTguMzUxNCA0My4yNzMzWiIgZmlsbD0iIzAwOUJGNCIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTI2LjcwMjggNTcuNzI5N1Y1Mi42NDg3QzI2LjcwMjggNTEuOTQ3NSAyNi4yNTQ4IDUxLjM3ODQgMjUuNzAyOCA1MS4zNzg0QzI1LjE1MDcgNTEuMzc4NCAyNC43MDI4IDUxLjk0NzUgMjQuNzAyOCA1Mi42NDg3VjU3LjcyOTdDMjQuNzAyOCA1OC40MzA5IDI1LjE1MDcgNTkgMjUuNzAyOCA1OUMyNi4yNTQ4IDU5IDI2LjcwMjggNTguNDMwOSAyNi43MDI4IDU3LjcyOTdaIiBmaWxsPSIjMDA5QkY0Ii8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNTcuNzI5OCA0My43NTY3SDUyLjY0ODdDNTEuOTQ3NSA0My43NTY3IDUxLjM3ODQgNDQuMjA0NyA1MS4zNzg0IDQ0Ljc1NjdDNTEuMzc4NCA0NS4zMDg4IDUxLjk0NzUgNDUuNzU2NyA1Mi42NDg3IDQ1Ljc1NjdINTcuNzI5OEM1OC40MzEgNDUuNzU2NyA1OSA0NS4zMDg4IDU5IDQ0Ljc1NjdDNTkgNDQuMjA0NyA1OC40MzEgNDMuNzU2NyA1Ny43Mjk4IDQzLjc1NjdaIiBmaWxsPSIjMDA5QkY0Ii8+Cjwvc3ZnPgo=" alt="Ask Krista AI" style="display: block; width: 100%; height: auto; border-radius: 8px;">
+          <div style="font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #888; margin-top: 4px; text-align: center;">Ask Krista AI</div>
+        </div>
+        <span class="chat-bubble__status">Analyzing attachment: invoice_7891.pdf</span>
+        Running native ML classifier trained on your business documents.
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Classification result:</span>
+        Document type: Invoice<br>
+        Sub-type: Vendor Purchase Invoice<br>
+        Confidence: 96%
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Step 2 complete.</span>
+        Document classified. Proceeding to data extraction.
+      </div>
+
+    </div>
+  </div>
+</div>
+    <!-- Panel 3: Step 3 – Extract and Validate Actionable Data -->
+<div class="scrolly__panel" data-panel="3">
+  <div class="panel-card">
+    <div class="panel-card__header">
+      <img src="https://thescottking.github.io/Scrolly-Demos/Inbound%20Document%20Processing/krista-mark.svg" alt="Krista" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">
+      <span class="panel-card__title">Krista Inbound Document Processing</span>
+    </div>
+    <div class="panel-card__body">
+
+      <div class="chat-bubble chat-bubble--agent">
+        <div style="float: left; margin: 0 16px 12px 0; max-width: 20%;">
+          <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzIiIGhlaWdodD0iNzIiIHZpZXdCb3g9IjAgMCA3MiA3MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjcyIiBoZWlnaHQ9IjcyIiByeD0iMjAiIGZpbGw9IiMwMDlCRjQiIGZpbGwtb3BhY2l0eT0iMC4xNSIvPgo8cmVjdCB4PSIxOS42MjE2IiB5PSIxOS42MjE2IiB3aWR0aD0iMzEuNzU2OCIgaGVpZ2h0PSIzMS43NTY4IiByeD0iMiIgZmlsbD0id2hpdGUiLz4KPHJlY3QgeD0iMjAuODkxOCIgeT0iNDguODM3OCIgd2lkdGg9IjI5LjIxNjIiIGhlaWdodD0iMi41NDA1NCIgcng9IjEiIGZpbGw9IiNEQ0Y3RkIiLz4KPHJlY3QgeD0iMjUuOTczIiB5PSIyNS45NzMiIHdpZHRoPSIxOS4wNTQxIiBoZWlnaHQ9IjE5LjA1NDEiIHJ4PSIxIiBmaWxsPSIjRENGN0ZCIi8+CjxwYXRoIGQ9Ik0zNC4zNjgyIDM4LjY5NTNWMzUuMjg0MkMzNC4zNjgyIDM1LjAzMzUgMzQuMzI0OSAzNC44MTcxIDM0LjIzODMgMzQuNjM0OEMzNC4xNTE3IDM0LjQ1MjUgMzQuMDE5NSAzNC4zMTEyIDMzLjg0MTggMzQuMjEwOUMzMy42NjQxIDM0LjExMDcgMzMuNDM4NSAzNC4wNjA1IDMzLjE2NSAzNC4wNjA1QzMyLjkyMzUgMzQuMDYwNSAzMi43MTE2IDM0LjEwMTYgMzIuNTI5MyAzNC4xODM2QzMyLjM1MTYgMzQuMjY1NiAzMi4yMTQ4IDM0LjM4MTggMzIuMTE5MSAzNC41MzIyQzMyLjAyMzQgMzQuNjc4MSAzMS45NzU2IDM0Ljg0NjcgMzEuOTc1NiAzNS4wMzgxSDMwLjE2NDFDMzAuMTY0MSAzNC43MzI3IDMwLjIzNyAzNC40NDM0IDMwLjM4MjggMzQuMTY5OUMzMC41Mjg2IDMzLjg5MTkgMzAuNzM2IDMzLjY0NTggMzEuMDA0OSAzMy40MzE2QzMxLjI3ODMgMzMuMjEyOSAzMS42MDQyIDMzLjA0MiAzMS45ODI0IDMyLjkxODlDMzIuMzY1MiAzMi43OTU5IDMyLjc5MzYgMzIuNzM0NCAzMy4yNjc2IDMyLjczNDRDMzMuODI4MSAzMi43MzQ0IDM0LjMyNzEgMzIuODMwMSAzNC43NjQ2IDMzLjAyMTVDMzUuMjA2NyAzMy4yMDgzIDM1LjU1MzEgMzMuNDkwOSAzNS44MDM3IDMzLjg2OTFDMzYuMDU4OSAzNC4yNDc0IDM2LjE4NjUgMzQuNzIzNiAzNi4xODY1IDM1LjI5NzlWMzguNTI0NEMzNi4xODY1IDM4Ljg5MzYgMzYuMjA5MyAzOS4yMTAzIDM2LjI1NDkgMzkuNDc0NkMzNi4zMDUgMzkuNzM0NCAzNi4zNzc5IDM5Ljk2IDM2LjQ3MzYgNDAuMTUxNFY0MC4yNjc2SDM0LjYzNDhDMzQuNTQ4MiA0MC4wODA3IDM0LjQ4MjEgMzkuODQzOCAzNC40MzY1IDM5LjU1NjZDMzQuMzkxIDM5LjI2NSAzNC4zNjgyIDM4Ljk3NzkgMzQuMzY4MiAzOC42OTUzWk0zNC42MjExIDM1Ljc2MjdMMzQuNjM0OCAzNi44MzU5SDMzLjQ5MzJDMzMuMjEwNiAzNi44MzU5IDMyLjk2MjIgMzYuODY1NiAzMi43NDggMzYuOTI0OEMzMi41MzM5IDM2Ljk3OTUgMzIuMzU4NCAzNy4wNjE1IDMyLjIyMTcgMzcuMTcwOUMzMi4wODUgMzcuMjc1NyAzMS45ODI0IDM3LjQwMzMgMzEuOTE0MSAzNy41NTM3QzMxLjg0NTcgMzcuNjk5NSAzMS44MTE1IDM3Ljg2NTkgMzEuODExNSAzOC4wNTI3QzMxLjgxMTUgMzguMjM1IDMxLjg1MjUgMzguMzk5MSAzMS45MzQ2IDM4LjU0NDlDMzIuMDIxMiAzOC42OTA4IDMyLjE0NDIgMzguODA3IDMyLjMwMzcgMzguODkzNkMzMi40Njc4IDM4Ljk3NTYgMzIuNjU5MiAzOS4wMTY2IDMyLjg3NzkgMzkuMDE2NkMzMy4xOTY5IDM5LjAxNjYgMzMuNDc0OSAzOC45NTI4IDMzLjcxMTkgMzguODI1MkMzMy45NDg5IDM4LjY5MyAzNC4xMzM1IDM4LjUzMzUgMzQuMjY1NiAzOC4zNDY3QzM0LjM5NzggMzguMTU5OCAzNC40Njg0IDM3Ljk4MjEgMzQuNDc3NSAzNy44MTM1TDM0Ljk5NzEgMzguNTkyOEMzNC45MzMzIDM4Ljc3OTYgMzQuODM3NiAzOC45Nzc5IDM0LjcxIDM5LjE4NzVDMzQuNTgyNCAzOS4zOTcxIDM0LjQxODMgMzkuNTkzMSAzNC4yMTc4IDM5Ljc3NTRDMzQuMDE3MyAzOS45NTc3IDMzLjc3NTcgNDAuMTA4MSAzMy40OTMyIDQwLjIyNjZDMzMuMjEwNiA0MC4zNDUxIDMyLjg4MjUgNDAuNDA0MyAzMi41MDg4IDQwLjQwNDNDMzIuMDMwMyA0MC40MDQzIDMxLjYwMTkgNDAuMzA4NiAzMS4yMjM2IDQwLjExNzJDMzAuODQ1NCAzOS45MjU4IDMwLjU0NjkgMzkuNjYzNyAzMC4zMjgxIDM5LjMzMTFDMzAuMTA5NCAzOC45OTg0IDMwIDM4LjYyMDEgMzAgMzguMTk2M0MzMCAzNy44MDQ0IDMwLjA3MjkgMzcuNDU4IDMwLjIxODggMzcuMTU3MkMzMC4zNjQ2IDM2Ljg1NjQgMzAuNTgxMSAzNi42MDM1IDMwLjg2ODIgMzYuMzk4NEMzMS4xNTUzIDM2LjE4ODggMzEuNTEwNyAzNi4wMzE2IDMxLjkzNDYgMzUuOTI2OEMzMi4zNjMgMzUuODE3NCAzMi44NTI5IDM1Ljc2MjcgMzMuNDA0MyAzNS43NjI3SDM0LjYyMTFaIiBmaWxsPSIjMDA5QkY0Ii8+CjxwYXRoIGQ9Ik0zOS43Mjc1IDMyLjg3MTFWNDAuMjY3NkgzNy45MTZWMzIuODcxMUgzOS43Mjc1Wk0zNy43OTMgMzAuOTM2NUMzNy43OTMgMzAuNjY3NiAzNy44ODQxIDMwLjQ0NDMgMzguMDY2NCAzMC4yNjY2QzM4LjI1MzMgMzAuMDg4OSAzOC41MDM5IDMwIDM4LjgxODQgMzBDMzkuMTMyOCAzMCAzOS4zODEyIDMwLjA4ODkgMzkuNTYzNSAzMC4yNjY2QzM5Ljc1MDMgMzAuNDQ0MyAzOS44NDM4IDMwLjY2NzYgMzkuODQzOCAzMC45MzY1QzM5Ljg0MzggMzEuMjAwOCAzOS43NTAzIDMxLjQyMTkgMzkuNTYzNSAzMS41OTk2QzM5LjM4MTIgMzEuNzc3MyAzOS4xMzI4IDMxLjg2NjIgMzguODE4NCAzMS44NjYyQzM4LjUwMzkgMzEuODY2MiAzOC4yNTMzIDMxLjc3NzMgMzguMDY2NCAzMS41OTk2QzM3Ljg4NDEgMzEuNDIxOSAzNy43OTMgMzEuMjAwOCAzNy43OTMgMzAuOTM2NVoiIGZpbGw9IiMwMDlCRjQiLz4KPHBhdGggZD0iTTQ2LjU2MzUgMTkuNjAxM0M0OS4yMzQ0IDE5LjYwMTMgNTEuMzk4NiAyMS43NjU5IDUxLjM5ODYgMjQuNDM2NVY0Ni41NjM1QzUxLjM5ODYgNDkuMjM0NCA0OS4yMzQxIDUxLjM5ODYgNDYuNTYzNSA1MS4zOTg2SDI0LjQzNjVDMjEuNzY1NiA1MS4zOTg2IDE5LjYwMTMgNDkuMjM0MSAxOS42MDEzIDQ2LjU2MzVWMjQuNDM2NUMxOS42MDEzIDIxLjc2NTYgMjEuNzY1OCAxOS42MDEzIDI0LjQzNjUgMTkuNjAxM0g0Ni41NjM1WiIgc3Ryb2tlPSIjMDA5QkY0IiBzdHJva2Utd2lkdGg9IjIuNSIvPgo8cGF0aCBkPSJNNDIuMzE5NSAyNS45NTI3QzQzLjgyNDkgMjUuOTUyNyA0NS4wNDc0IDI3LjE3NTIgNDUuMDQ3NCAyOC42ODA2VjQyLjMxOTRDNDUuMDQ3NCA0My44MjQ4IDQzLjgyNDkgNDUuMDQ3MyA0Mi4zMTk1IDQ1LjA0NzNIMjguNjgwNkMyNy4xNzUyIDQ1LjA0NzMgMjUuOTUyOCA0My44MjQ4IDI1Ljk1MjggNDIuMzE5NFYyOC42ODA2QzI1Ljk1MjggMjcuMTc1MiAyNy4xNzUyIDI1Ljk1MjcgMjguNjgwNiAyNS45NTI3SDQyLjMxOTVaIiBzdHJva2U9IiMwMDlCRjQiIHN0cm9rZS13aWR0aD0iMi41Ii8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMzYuMzYzNiAxOC4zNTE0VjEzLjI3MDNDMzYuMzYzNiAxMi41NjkxIDM1LjkxNTcgMTIgMzUuMzYzNiAxMkMzNC44MTE2IDEyIDM0LjM2MzYgMTIuNTY5MSAzNC4zNjM2IDEzLjI3MDNWMTguMzUxNEMzNC4zNjM2IDE5LjA1MjYgMzQuODExNiAxOS42MjE2IDM1LjM2MzYgMTkuNjIxNkMzNS45MTU3IDE5LjYyMTYgMzYuMzYzNiAxOS4wNTI2IDM2LjM2MzYgMTguMzUxNFoiIGZpbGw9IiMwMDlCRjQiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xOC4zNTE0IDMzLjYxMjNIMTMuMjcwM0MxMi41NjkxIDMzLjYxMjMgMTIgMzQuMDYwMyAxMiAzNC42MTIzQzEyIDM1LjE2NDMgMTIuNTY5MSAzNS42MTIzIDEzLjI3MDMgMzUuNjEyM0gxOC4zNTE0QzE5LjA1MjYgMzUuNjEyMyAxOS42MjE2IDM1LjE2NDMgMTkuNjIxNiAzNC42MTIzQzE5LjYyMTYgMzQuMDYwMyAxOS4wNTI2IDMzLjYxMjMgMTguMzUxNCAzMy42MTIzWiIgZmlsbD0iIzAwOUJGNCIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTM2LjM2MzYgNTcuNzI5N1Y1Mi42NDg3QzM2LjM2MzYgNTEuOTQ3NSAzNS45MTU3IDUxLjM3ODQgMzUuMzYzNiA1MS4zNzg0QzM0LjgxMTYgNTEuMzc4NCAzNC4zNjM2IDUxLjk0NzUgMzQuMzYzNiA1Mi42NDg3VjU3LjcyOTdDMzQuMzYzNiA1OC40MzA5IDM0LjgxMTYgNTkgMzUuMzYzNiA1OUMzNS45MTU3IDU5IDM2LjM2MzYgNTguNDMwOSAzNi4zNjM2IDU3LjcyOTdaIiBmaWxsPSIjMDA5QkY0Ii8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNTcuNzI5OCAzMy41OTQ2SDUyLjY0ODdDNTEuOTQ3NSAzMy41OTQ2IDUxLjM3ODQgMzQuMDQyNiA1MS4zNzg0IDM0LjU5NDZDNTEuMzc4NCAzNS4xNDY2IDUxLjk0NzUgMzUuNTk0NiA1Mi42NDg3IDM1LjU5NDZINTcuNzI5OEM1OC40MzEgMzUuNTk0NiA1OSAzNS4xNDY2IDU5IDM0LjU5NDZDNTkgMzQuMDQyNiA1OC40MzEgMzMuNTk0NiA1Ny43Mjk4IDMzLjU5NDZaIiBmaWxsPSIjMDA5QkY0Ii8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNDYuMDI0NyAxOC4zNTE0VjEzLjI3MDNDNDYuMDI0NyAxMi41NjkxIDQ1LjU3NjcgMTIgNDUuMDI0NyAxMkM0NC40NzI2IDEyIDQ0LjAyNDcgMTIuNTY5MSA0NC4wMjQ3IDEzLjI3MDNWMTguMzUxNEM0NC4wMjQ3IDE5LjA1MjYgNDQuNDcyNiAxOS42MjE2IDQ1LjAyNDcgMTkuNjIxNkM0NS41NzY3IDE5LjYyMTYgNDYuMDI0NyAxOS4wNTI2IDQ2LjAyNDcgMTguMzUxNFoiIGZpbGw9IiMwMDlCRjQiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xOC4zNTE0IDIzLjk1MTRIMTMuMjcwM0MxMi41NjkxIDIzLjk1MTQgMTIgMjQuMzk5NCAxMiAyNC45NTE0QzEyIDI1LjUwMzQgMTIuNTY5MSAyNS45NTE0IDEzLjI3MDMgMjUuOTUxNEgxOC4zNTE0QzE5LjA1MjYgMjUuOTUxNCAxOS42MjE2IDI1LjUwMzQgMTkuNjIxNiAyNC45NTE0QzE5LjYyMTYgMjQuMzk5NCAxOS4wNTI2IDIzLjk1MTQgMTguMzUxNCAyMy45NTE0WiIgZmlsbD0iIzAwOUJGNCIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTQ2LjAyNDcgNTcuNzI5N1Y1Mi42NDg3QzQ2LjAyNDcgNTEuOTQ3NSA0NS41NzY3IDUxLjM3ODQgNDUuMDI0NyA1MS4zNzg0QzQ0LjQ3MjYgNTEuMzc4NCA0NC4wMjQ3IDUxLjk0NzUgNDQuMDI0NyA1Mi42NDg3VjU3LjcyOTdDNDQuMDI0NyA1OC40MzA5IDQ0LjQ3MjYgNTkgNDUuMDI0NyA1OUM0NS41NzY3IDU5IDQ2LjAyNDcgNTguNDMwOSA0Ni4wMjQ3IDU3LjcyOTdaIiBmaWxsPSIjMDA5QkY0Ii8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNTcuNzI5OCAyMy40MzI0SDUyLjY0ODdDNTEuOTQ3NSAyMy40MzI0IDUxLjM3ODQgMjMuODgwNCA1MS4zNzg0IDI0LjQzMjRDNTEuMzc4NCAyNC45ODQ0IDUxLjk0NzUgMjUuNDMyNCA1Mi42NDg3IDI1LjQzMjRINTcuNzI5OEM1OC40MzEgMjUuNDMyNCA1OSAyNC45ODQ0IDU5IDI0LjQzMjRDNTkgMjMuODgwNCA1OC40MzEgMjMuNDMyNCA1Ny43Mjk4IDIzLjQzMjRaIiBmaWxsPSIjMDA5QkY0Ii8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMjYuNzAyOCAxOC4zNTE0VjEzLjI3MDNDMjYuNzAyOCAxMi41NjkxIDI2LjI1NDggMTIgMjUuNzAyOCAxMkMyNS4xNTA3IDEyIDI0LjcwMjggMTIuNTY5MSAyNC43MDI4IDEzLjI3MDNWMTguMzUxNEMyNC43MDI4IDE5LjA1MjYgMjUuMTUwNyAxOS42MjE2IDI1LjcwMjggMTkuNjIxNkMyNi4yNTQ4IDE5LjYyMTYgMjYuNzAyOCAxOS4wNTI2IDI2LjcwMjggMTguMzUxNFoiIGZpbGw9IiMwMDlCRjQiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xOC4zNTE0IDQzLjI3MzNIMTMuMjcwM0MxMi41NjkxIDQzLjI3MzMgMTIgNDMuNzIxMyAxMiA0NC4yNzMzQzEyIDQ0LjgyNTMgMTIuNTY5MSA0NS4yNzMzIDEzLjI3MDMgNDUuMjczM0gxOC4zNTE0QzE5LjA1MjYgNDUuMjczMyAxOS42MjE2IDQ0LjgyNTMgMTkuNjIxNiA0NC4yNzMzQzE5LjYyMTYgNDMuNzIxMyAxOS4wNTI2IDQzLjI3MzMgMTguMzUxNCA0My4yNzMzWiIgZmlsbD0iIzAwOUJGNCIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTI2LjcwMjggNTcuNzI5N1Y1Mi42NDg3QzI2LjcwMjggNTEuOTQ3NSAyNi4yNTQ4IDUxLjM3ODQgMjUuNzAyOCA1MS4zNzg0QzI1LjE1MDcgNTEuMzc4NCAyNC43MDI4IDUxLjk0NzUgMjQuNzAyOCA1Mi42NDg3VjU3LjcyOTdDMjQuNzAyOCA1OC40MzA5IDI1LjE1MDcgNTkgMjUuNzAyOCA1OUMyNi4yNTQ4IDU5IDI2LjcwMjggNTguNDMwOSAyNi43MDI4IDU3LjcyOTdaIiBmaWxsPSIjMDA5QkY0Ii8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNTcuNzI5OCA0My43NTY3SDUyLjY0ODdDNTEuOTQ3NSA0My43NTY3IDUxLjM3ODQgNDQuMjA0NyA1MS4zNzg0IDQ0Ljc1NjdDNTEuMzc4NCA0NS4zMDg4IDUxLjk0NzUgNDUuNzU2NyA1Mi42NDg3IDQ1Ljc1NjdINTcuNzI5OEM1OC40MzEgNDUuNzU2NyA1OSA0NS4zMDg4IDU5IDQ0Ljc1NjdDNTkgNDQuMjA0NyA1OC40MzEgNDMuNzU2NyA1Ny43Mjk4IDQzLjc1NjdaIiBmaWxsPSIjMDA5QkY0Ii8+Cjwvc3ZnPgo=" alt="Ask Krista AI" style="display: block; width: 100%; height: auto; border-radius: 8px;">
+          <div style="font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #888; margin-top: 4px; text-align: center;">Ask Krista AI</div>
+        </div>
+        <span class="chat-bubble__status">Extracting key data points...</span>
+        Supplier: Acme Industrial Supply<br>
+        Invoice #: INV-2024-7891<br>
+        Line items: 3 detected<br>
+        Total: $14,750.00
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Confidence scoring...</span>
+        Supplier name: 99% | Line items: 97% | Total: 99%<br>
+        Overall data integrity: 98%
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Step 3 complete.</span>
+        All data extracted and validated. Proceeding to verification.
+      </div>
+
+    </div>
+  </div>
+</div>
+    
+
+        <!-- Panel 4: Step 4 – Governed Human Verification -->
+<div class="scrolly__panel" data-panel="4">
+  <div class="panel-card">
+    <div class="panel-card__header">
+      <img src="https://thescottking.github.io/Scrolly-Demos/Inbound%20Document%20Processing/krista-mark.svg" alt="Krista" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">
+      <span class="panel-card__title">Krista Inbound Document Processing</span>
+    </div>
+    <div class="panel-card__body">
+
+      <div class="chat-bubble chat-bubble--agent">
+        <div style="float: left; margin: 0 16px 12px 0; max-width: 20%;">
+          <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzIiIGhlaWdodD0iNzIiIHZpZXdCb3g9IjAgMCA3MiA3MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwXzExNjNfNDU4KSI+CjxyZWN0IHdpZHRoPSI3MiIgaGVpZ2h0PSI3MiIgcng9IjIwIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBvcGFjaXR5PSIwLjE1IiBkPSJNMCAyMEMwIDguOTU0MzEgOC45NTQzMSAwIDIwIDBINTJDNjMuMDQ1NyAwIDcyIDguOTU0MzEgNzIgMjBWNTJDNzIgNjMuMDQ1NyA2My4wNDU3IDcyIDUyIDcySDIwQzguOTU0MzEgNzIgMCA2My4wNDU3IDAgNTJWMjBaIiBmaWxsPSIjOEE2MUZGIi8+CjxwYXRoIGQ9Ik0zOC40ODcgMTQuMDg3NkM0My4zNTA0IDE0LjUxMjYgNDcuOTQzMiAxNi41MSA1MS41Njk0IDE5Ljc3NzVDNTUuMTk2NCAyMy4wNDQ2IDU3LjY2MDcgMjcuNDA0NCA1OC41ODk2IDMyLjE5NzFDNTkuNTE4MyAzNi45ODk2IDU4Ljg2MTEgNDEuOTU0NiA1Ni43MTczIDQ2LjM0MDVDNTYuNDM5NCA0Ni44Njk5IDU2LjM2NDEgNDcuNDgyMyA1Ni41MDQ2IDQ4LjA2MzJMNTguMjUzOSA1NC40ODE3QzU4LjU0NDQgNTUuNTQ3NSA1OC4yNTM2IDU2LjY4NzIgNTcuNDg3NyA1Ny40ODM2QzU2LjcyMjIgNTguMjggNTUuNTk0NCA1OC42MTUyIDU0LjUxODEgNTguMzY2OUw0Ny40NzE0IDU2Ljc0MDFDNDYuOTM5OSA1Ni42MzQ3IDQ2LjM4ODEgNTYuNzA2NSA0NS45MDE0IDU2Ljk0NTRDNDIuOTUxIDU4LjMwMDkgMzkuNzQxNCA1OS4wMDAzIDM2LjQ5NDYgNTguOTk1MUMzNS4yMDk5IDU4Ljk5NDcgMzMuOTI3NiA1OC44ODg1IDMyLjY2MDMgNTguNjc3M0MyNi45Mzk3IDU3LjY4NTcgMjEuODIzOCA1NC41MjE3IDE4LjM4MTQgNDkuODQ1OEMxNC45MzkyIDQ1LjE3MDMgMTMuNDM3NSAzOS4zNDU2IDE0LjE4OTggMzMuNTg4M0MxNC45NDIgMjcuODMxMiAxNy44OTAzIDIyLjU4NzcgMjIuNDE4MyAxOC45NTQzQzI2Ljk0NjIgMTUuMzIgMzIuNzAzNyAxMy41NzU4IDM4LjQ4NyAxNC4wODc2WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTM4LjIwNTggMTYuNTE5MkM0Mi41NTczIDE2Ljg5OTUgNDYuNjY2NyAxOC42ODY5IDQ5LjkxMTMgMjEuNjEwOUM1My4xNTY1IDI0LjUzNDUgNTUuMzYxNSAyOC40MzU5IDU2LjE5MjYgMzIuNzI0N0M1Ny4wMjM2IDM3LjAxMzQgNTYuNDM1NSA0MS40NTY0IDU0LjUxNzMgNDUuMzgxMkM1NC4yNjg3IDQ1Ljg1NSA1NC4yMDEzIDQ2LjQwMyA1NC4zMjcgNDYuOTIyOEw1NS44OTIzIDUyLjY2NjVDNTYuMTUyMSA1My42MjAzIDU1Ljg5MTkgNTQuNjQwMiA1NS4yMDY3IDU1LjM1MjhDNTQuNTIxNyA1Ni4wNjU1IDUzLjUxMjYgNTYuMzY1NSA1Mi41NDk2IDU2LjE0MzJMNDYuMjQ0NiA1NC42ODc1TDQ2LjI0NDMgNTQuNjg3MkM0NS43Njg3IDU0LjU5MjggNDUuMjc1MyA1NC42NTc0IDQ0LjgzOTggNTQuODcxMkM0Mi4yIDU2LjA4NDIgMzkuMzI4MiA1Ni43MSAzNi40MjMxIDU2LjcwNTRDMzUuMjczNSA1Ni43MDUxIDM0LjEyNjIgNTYuNjEwMSAzMi45OTIzIDU2LjQyMUMyNy44NzM4IDU1LjUzMzcgMjMuMjk2MyA1Mi43MDIzIDIwLjIxNjIgNDguNTE4QzE3LjEzNjIgNDQuMzM0IDE1Ljc5MjcgMzkuMTIxOCAxNi40NjU3IDMzLjk2OTdDMTcuMTM4OCAyOC44MTc5IDE5Ljc3NjggMjQuMTI1NiAyMy44MjgyIDIwLjg3NDJDMjcuODc5NiAxNy42MjIgMzMuMDMxNSAxNi4wNjE5IDM4LjIwNjEgMTYuNTJMMzguMjA1OCAxNi41MTkyWk0xOS4zNTYzIDM5LjU0NjRDMTkuOTYzOCA0My4wNDQ3IDIxLjYzMTIgNDYuMjcxNCAyNC4xMzI4IDQ4Ljc5MDlDMjYuNjM0NCA1MS4zMTA0IDI5Ljg0OTggNTIuOTk5NCAzMy4zNDMzIDUzLjYzMDhDMzYuODM2OCA1NC4yNjE5IDQwLjQ0IDUzLjgwNDIgNDMuNjY0NSA1Mi4zMTk2QzQ0LjMzOTcgNTIuMDAyNyA0NS4wNzYxIDUxLjgzNTYgNDUuODIyMiA1MS44MzA1QzQ2LjE3NzQgNTEuODMwNSA0Ni41MzEzIDUxLjg3MDcgNDYuODc3NCA1MS45NTAzTDUzLjE4MjQgNTMuNDA2TDUxLjYxNzIgNDcuNjYzMlY0Ny42NjM1QzUxLjMxMTIgNDYuNDgzNCA1MS40NDU3IDQ1LjIzMjUgNTEuOTk1NiA0NC4xNDQ1QzUzLjU5MDYgNDAuODU4MiA1NC4xMDU2IDM3LjE1MTcgNTMuNDY3IDMzLjU1NDdDNTIuODI4NSAyOS45NTc4IDUxLjA2OTIgMjYuNjU1MyA0OC40NDA2IDI0LjExOTFDNDUuODEyMSAyMS41ODMgNDIuNDQ5MSAxOS45NDI0IDM4LjgzMjEgMTkuNDMyOUMzNS4yMTUyIDE4LjkyMzQgMzEuNTI5OSAxOS41NzA4IDI4LjMwMzEgMjEuMjgyNEMyNS4wNzYzIDIyLjk5MzkgMjIuNDczMiAyNS42ODIgMjAuODY2MyAyOC45NjI3QzE5LjI1OTEgMzIuMjQzMSAxOC43MzA2IDM1Ljk0NzcgMTkuMzU1NyAzOS41NDY5TDE5LjM1NjMgMzkuNTQ2NFoiIGZpbGw9IiNDQ0NDRkYiLz4KPHBhdGggZD0iTTM4LjQ4NyAxNC4wODc1QzQzLjM1MDQgMTQuNTEyNSA0Ny45NDMyIDE2LjUwOTkgNTEuNTY5NCAxOS43NzczQzU1LjE5NjQgMjMuMDQ0NCA1Ny42NjA3IDI3LjQwNDIgNTguNTg5NiAzMi4xOTY5QzU5LjUxODMgMzYuOTg5NSA1OC44NjExIDQxLjk1NDQgNTYuNzE3MyA0Ni4zNDAzQzU2LjQzOTQgNDYuODY5NyA1Ni4zNjQxIDQ3LjQ4MjEgNTYuNTA0NiA0OC4wNjNMNTguMjUzOSA1NC40ODE1QzU4LjU0NDQgNTUuNTQ3MyA1OC4yNTM2IDU2LjY4NzEgNTcuNDg3NyA1Ny40ODM0QzU2LjcyMjIgNTguMjc5OCA1NS41OTQ0IDU4LjYxNTEgNTQuNTE4MSA1OC4zNjY3TDQ3LjQ3MTQgNTYuNzM5OUw0Ny40NzEgNTYuNzM5NkM0Ni45Mzk2IDU2LjYzNDEgNDYuMzg4MSA1Ni43MDYzIDQ1LjkwMTQgNTYuOTQ1M0M0Mi45NTEgNTguMzAwOCAzOS43NDE0IDU5LjAwMDEgMzYuNDk0NiA1OC45OTQ5QzM1LjIwOTkgNTguOTk0NSAzMy45Mjc2IDU4Ljg4ODQgMzIuNjYwMyA1OC42NzcxQzI2LjkzOTcgNTcuNjg1NiAyMS44MjM4IDU0LjUyMTUgMTguMzgxNCA0OS44NDU2QzE0LjkzOTIgNDUuMTcwMSAxMy40Mzc1IDM5LjM0NTUgMTQuMTg5OCAzMy41ODgyQzE0Ljk0MiAyNy44MzExIDE3Ljg5MDMgMjIuNTg3NSAyMi40MTgzIDE4Ljk1NDFDMjYuOTQ2MiAxNS4zMTk4IDMyLjcwNDEgMTMuNTc2NSAzOC40ODc0IDE0LjA4ODNMMzguNDg3IDE0LjA4NzVaTTE3LjQyMDMgMzkuODE5OUMxOC4wOTkzIDQzLjcyOTIgMTkuOTYyOSA0Ny4zMzUxIDIyLjc1ODcgNTAuMTUwNkMyNS41NTQ2IDUyLjk2NjEgMjkuMTQ4MiA1NC44NTM1IDMzLjA1MjYgNTUuNTU5MUMzNi45NTcgNTYuMjY0NCA0MC45ODQgNTUuNzUyOCA0NC41ODc4IDU0LjA5MzlDNDUuMzQyNSA1My43Mzk3IDQ2LjE2NTUgNTMuNTUyOSA0Ni45OTk0IDUzLjU0NzNDNDcuMzk2MyA1My41NDczIDQ3Ljc5MTkgNTMuNTkyMiA0OC4xNzg2IDUzLjY4MTJMNTUuMjI1MyA1NS4zMDc5TDUzLjQ3NiA0OC44OTA0VjQ4Ljg5MDdDNTMuMTM0IDQ3LjU3MiA1My4yODQzIDQ2LjE3NDEgNTMuODk4OSA0NC45NTgzQzU1LjY4MTUgNDEuMjg1OSA1Ni4yNTcxIDM3LjE0MzkgNTUuNTQzNCAzMy4xMjQ0QzU0LjgyOTggMjkuMTA0OSA1Mi44NjM2IDI1LjQxNDUgNDkuOTI1OCAyMi41ODAzQzQ2Ljk4OCAxOS43NDYxIDQzLjIyOTQgMTcuOTEyOCAzOS4xODcgMTcuMzQzNUMzNS4xNDQ2IDE2Ljc3NDEgMzEuMDI1OCAxNy40OTc2IDI3LjQxOTUgMTkuNDEwMkMyMy44MTMyIDIxLjMyMjggMjAuOTAzOSAyNC4zMjY4IDE5LjEwOCAyNy45OTI5QzE3LjMxMTcgMzEuNjU4NyAxNi43MjEgMzUuNzk4NSAxNy40MTk2IDM5LjgyMDVMMTcuNDIwMyAzOS44MTk5WiIgZmlsbD0iIzhBNjFGRiIvPgo8cGF0aCBkPSJNNDAuODYyMyA0NS4zOTQxSDM5LjI5MjdWMzIuMzEzNUMzOS4yOTI3IDMxLjg5NzIgMzkuMTI3MyAzMS40OTgyIDM4LjgzMjYgMzEuMjAzOUMzOC41MzgzIDMwLjkwOTYgMzguMTM5MyAzMC43NDQyIDM3LjcyMzEgMzAuNzQzOUgzNS42MzA0QzM1LjA2OTUgMzAuNzQzOSAzNC41NTEzIDMxLjA0MzEgMzQuMjcxIDMxLjUyODdDMzMuOTkwNyAzMi4wMTQzIDMzLjk5MDcgMzIuNjEyNyAzNC4yNzEgMzMuMDk4M0MzNC41NTEzIDMzLjU4MzkgMzUuMDY5NSAzMy44ODMxIDM1LjYzMDQgMzMuODgzMUgzNi4xNTM1VjQ1LjM5MzJMMzQuNTgzOSA0NS4zOTM1QzM0LjAyMjkgNDUuMzkzNSAzMy41MDQ4IDQ1LjY5MjcgMzMuMjI0NSA0Ni4xNzgzQzMyLjk0NDIgNDYuNjYzOSAzMi45NDQyIDQ3LjI2MjMgMzMuMjI0NSA0Ny43NDc5QzMzLjUwNDggNDguMjMzNSAzNC4wMjMgNDguNTMyNyAzNC41ODM5IDQ4LjUzMjdINDAuODYyM0M0MS40MjMyIDQ4LjUzMjcgNDEuOTQxMyA0OC4yMzM1IDQyLjIyMTYgNDcuNzQ3OUM0Mi41MDE5IDQ3LjI2MjMgNDIuNTAxOSA0Ni42NjM5IDQyLjIyMTYgNDYuMTc4M0M0MS45NDEzIDQ1LjY5MjcgNDEuNDIzMiA0NS4zOTM1IDQwLjg2MjMgNDUuMzkzNUw0MC44NjIzIDQ1LjM5NDFaIiBmaWxsPSIjQ0NDQ0ZGIi8+CjxwYXRoIGQ9Ik0zOS44MTU2IDI2LjAzNTFDMzkuODE1NiAyNy4xOTA5IDM4Ljg3ODggMjguMTI4MSAzNy43MjI5IDI4LjEyODFDMzYuNTY3MSAyOC4xMjgxIDM1LjYzMDIgMjcuMTkwOSAzNS42MzAyIDI2LjAzNTFDMzUuNjMwMiAyNC44NzkyIDM2LjU2NzEgMjMuOTQyNCAzNy43MjI5IDIzLjk0MjRDMzguODc4OCAyMy45NDI0IDM5LjgxNTYgMjQuODc5MiAzOS44MTU2IDI2LjAzNTFaIiBmaWxsPSIjQ0NDQ0ZGIi8+CjxwYXRoIGQ9Ik0zOS42NDIyIDQ1LjM5NDFIMzguMDcyNlYzMi4zMTM1QzM4LjA3MjYgMzEuODk3MiAzNy45MDcyIDMxLjQ5ODIgMzcuNjEyNSAzMS4yMDM5QzM3LjMxODIgMzAuOTA5NiAzNi45MTkyIDMwLjc0NDIgMzYuNTAzIDMwLjc0MzlIMzQuNDEwM0MzMy44NDk0IDMwLjc0MzkgMzMuMzMxMiAzMS4wNDMxIDMzLjA1MDkgMzEuNTI4N0MzMi43NzA2IDMyLjAxNDMgMzIuNzcwNiAzMi42MTI3IDMzLjA1MDkgMzMuMDk4M0MzMy4zMzEyIDMzLjU4MzkgMzMuODQ5NCAzMy44ODMxIDM0LjQxMDMgMzMuODgzMUgzNC45MzM0VjQ1LjM5MzJMMzMuMzYzOCA0NS4zOTM1QzMyLjgwMjggNDUuMzkzNSAzMi4yODQ3IDQ1LjY5MjcgMzIuMDA0NCA0Ni4xNzgzQzMxLjcyNDEgNDYuNjYzOSAzMS43MjQxIDQ3LjI2MjMgMzIuMDA0NCA0Ny43NDc5QzMyLjI4NDcgNDguMjMzNSAzMi44MDI5IDQ4LjUzMjcgMzMuMzYzOCA0OC41MzI3SDM5LjY0MjJDNDAuMjAzMSA0OC41MzI3IDQwLjcyMTIgNDguMjMzNSA0MS4wMDE1IDQ3Ljc0NzlDNDEuMjgxOCA0Ny4yNjIzIDQxLjI4MTggNDYuNjYzOSA0MS4wMDE1IDQ2LjE3ODNDNDAuNzIxMiA0NS42OTI3IDQwLjIwMzEgNDUuMzkzNSAzOS42NDIyIDQ1LjM5MzVMMzkuNjQyMiA0NS4zOTQxWiIgZmlsbD0iIzhBNjFGRiIvPgo8cGF0aCBkPSJNMzguNTk1NSAyNi4wMzUxQzM4LjU5NTUgMjcuMTkwOSAzNy42NTg3IDI4LjEyODEgMzYuNTAyOCAyOC4xMjgxQzM1LjM0NyAyOC4xMjgxIDM0LjQxMDIgMjcuMTkwOSAzNC40MTAyIDI2LjAzNTFDMzQuNDEwMiAyNC44NzkyIDM1LjM0NyAyMy45NDI0IDM2LjUwMjggMjMuOTQyNEMzNy42NTg3IDIzLjk0MjQgMzguNTk1NSAyNC44NzkyIDM4LjU5NTUgMjYuMDM1MVoiIGZpbGw9IiM4QTYxRkYiLz4KPC9nPgo8ZGVmcz4KPGNsaXBQYXRoIGlkPSJjbGlwMF8xMTYzXzQ1OCI+CjxyZWN0IHdpZHRoPSI3MiIgaGVpZ2h0PSI3MiIgcng9IjIwIiBmaWxsPSJ3aGl0ZSIvPgo8L2NsaXBQYXRoPgo8L2RlZnM+Cjwvc3ZnPgo=" alt="Inform a Person" style="display: block; width: 100%; height: auto; border-radius: 8px;">
+          <div style="font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #888; margin-top: 4px; text-align: center;">Inform a Person</div>
+        </div>
+        <span class="chat-bubble__status">Anomaly detected</span>
+        Line item #2 unit price ($4,250) differs from catalog ($3,950).<br>
+        <strong>Flagged. Initiating governed escalation.</strong>
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Routing to AP Manager (Vendor Pricing)...</span>
+        Providing: original PDF, extracted data, flagged discrepancy, supplier history.
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Waiting for human verification...</span>
+        Krista paused. Human judgment in control.
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Step 4 complete.</span>
+        Expert confirmed: new contract rate is valid. Proceeding.
+      </div>
+
+    </div>
+  </div>
+</div>
+
+        <!-- Panel 5: Step 5 – Three-Way Matching and Audits -->
+<div class="scrolly__panel" data-panel="5">
+  <div class="panel-card">
+    <div class="panel-card__header">
+      <img src="https://thescottking.github.io/Scrolly-Demos/Inbound%20Document%20Processing/krista-mark.svg" alt="Krista" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">
+      <span class="panel-card__title">Krista Inbound Document Processing</span>
+    </div>
+    <div class="panel-card__body">
+
+      <div class="chat-bubble chat-bubble--agent">
+        <div style="float: left; margin: 0 16px 12px 0; max-width: 20%;">
+          <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzIiIGhlaWdodD0iNzIiIHZpZXdCb3g9IjAgMCA3MiA3MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTAgMjBDMCA4Ljk1NDMxIDguOTU0MzEgMCAyMCAwSDUyQzYzLjA0NTcgMCA3MiA4Ljk1NDMxIDcyIDIwVjUyQzcyIDYzLjA0NTcgNjMuMDQ1NyA3MiA1MiA3MkgyMEM4Ljk1NDMxIDcyIDAgNjMuMDQ1NyAwIDUyVjIwWiIgZmlsbD0iIzQwQ0U1MyIgZmlsbC1vcGFjaXR5PSIwLjE1Ii8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMjcgMThDMjUuODk1NCAxOCAyNSAxOC44OTU0IDI1IDIwVjUyQzI1IDUzLjEwNDYgMjUuODk1NCA1NCAyNyA1NEg0NUM0Ni4xMDQ2IDU0IDQ3IDUzLjEwNDYgNDcgNTJWMjBDNDcgMTguODk1NCA0Ni4xMDQ2IDE4IDQ1IDE4SDI3Wk00MSAyN0M0MSAyNi40NDc3IDQwLjU1MjMgMjYgNDAgMjZIMzJDMzEuNDQ3NyAyNiAzMSAyNi40NDc3IDMxIDI3QzMxIDI3LjU1MjMgMzEuNDQ3NyAyOCAzMiAyOEg0MEM0MC41NTIzIDI4IDQxIDI3LjU1MjMgNDEgMjdaTTM5IDQxQzM5IDQyLjY1NjkgMzcuNjU2OSA0NCAzNiA0NEMzNC4zNDMxIDQ0IDMzIDQyLjY1NjkgMzMgNDFDMzMgMzkuMzQzMSAzNC4zNDMxIDM4IDM2IDM4QzM3LjY1NjkgMzggMzkgMzkuMzQzMSAzOSA0MVpNNDEgMzJDNDEgMzEuNDQ3NyA0MC41NTIzIDMxIDQwIDMxSDMyQzMxLjQ0NzcgMzEgMzEgMzEuNDQ3NyAzMSAzMkMzMSAzMi41NTIzIDMxLjQ0NzcgMzMgMzIgMzNINDBDNDAuNTUyMyAzMyA0MSAzMi41NTIzIDQxIDMyWiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yMyAyMEMyMyAxNy43OTA5IDI0Ljc5MDkgMTYgMjcgMTZINDVDNDcuMjA5MSAxNiA0OSAxNy43OTA5IDQ5IDIwVjUyQzQ5IDU0LjIwOTEgNDcuMjA5MSA1NiA0NSA1NkgyN0MyNC43OTA5IDU2IDIzIDU0LjIwOTEgMjMgNTJWMjBaTTM2IDQyQzM2LjU1MjMgNDIgMzcgNDEuNTUyMyAzNyA0MUMzNyA0MC40NDc3IDM2LjU1MjMgNDAgMzYgNDBDMzUuNDQ3NyA0MCAzNSA0MC40NDc3IDM1IDQxQzM1IDQxLjU1MjMgMzUuNDQ3NyA0MiAzNiA0MlpNMzIgMzFINDBDNDAuNTUyMyAzMSA0MSAzMS40NDc3IDQxIDMyQzQxIDMyLjU1MjMgNDAuNTUyMyAzMyA0MCAzM0gzMkMzMS40NDc3IDMzIDMxIDMyLjU1MjMgMzEgMzJDMzEgMzEuNDQ3NyAzMS40NDc3IDMxIDMyIDMxWk0zMiAyNkg0MEM0MC41NTIzIDI2IDQxIDI2LjQ0NzcgNDEgMjdDNDEgMjcuNTUyMyA0MC41NTIzIDI4IDQwIDI4SDMyQzMxLjQ0NzcgMjggMzEgMjcuNTUyMyAzMSAyN0MzMSAyNi40NDc3IDMxLjQ0NzcgMjYgMzIgMjZaTTI1IDIwQzI1IDE4Ljg5NTQgMjUuODk1NCAxOCAyNyAxOEg0NUM0Ni4xMDQ2IDE4IDQ3IDE4Ljg5NTQgNDcgMjBWNTJDNDcgNTMuMTA0NiA0Ni4xMDQ2IDU0IDQ1IDU0SDI3QzI1Ljg5NTQgNTQgMjUgNTMuMTA0NiAyNSA1MlYyMFpNMzYgNDRDMzcuNjU2OSA0NCAzOSA0Mi42NTY5IDM5IDQxQzM5IDM5LjM0MzEgMzcuNjU2OSAzOCAzNiAzOEMzNC4zNDMxIDM4IDMzIDM5LjM0MzEgMzMgNDFDMzMgNDIuNjU2OSAzNC4zNDMxIDQ0IDM2IDQ0WiIgZmlsbD0iIzQwQ0U1MyIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTU4IDMyLjI1QzU4LjQxNDIgMzIuMjUgNTguNzUgMzIuNTg1OCA1OC43NSAzM1YzOS4xODkzTDYxLjQ2OTcgMzYuNDY5N0M2MS43NjI2IDM2LjE3NjggNjIuMjM3NCAzNi4xNzY4IDYyLjUzMDMgMzYuNDY5N0M2Mi44MjMyIDM2Ljc2MjYgNjIuODIzMiAzNy4yMzc0IDYyLjUzMDMgMzcuNTMwM0w1OC41MzAzIDQxLjUzMDNDNTguMjM3NCA0MS44MjMyIDU3Ljc2MjYgNDEuODIzMiA1Ny40Njk3IDQxLjUzMDNMNTMuNDY5NyAzNy41MzAzQzUzLjE3NjggMzcuMjM3NCA1My4xNzY4IDM2Ljc2MjYgNTMuNDY5NyAzNi40Njk3QzUzLjc2MjYgMzYuMTc2OCA1NC4yMzc0IDM2LjE3NjggNTQuNTMwMyAzNi40Njk3TDU3LjI1IDM5LjE4OTNWMzNDNTcuMjUgMzIuNTg1OCA1Ny41ODU4IDMyLjI1IDU4IDMyLjI1WiIgZmlsbD0iIzQwQ0U1MyIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTE0IDQxLjc1QzE0LjQxNDIgNDEuNzUgMTQuNzUgNDEuNDE0MiAxNC43NSA0MVYzNC44MTA3TDE3LjQ2OTcgMzcuNTMwM0MxNy43NjI2IDM3LjgyMzIgMTguMjM3NCAzNy44MjMyIDE4LjUzMDMgMzcuNTMwM0MxOC44MjMyIDM3LjIzNzQgMTguODIzMiAzNi43NjI2IDE4LjUzMDMgMzYuNDY5N0wxNC41MzAzIDMyLjQ2OTdDMTQuMjM3NCAzMi4xNzY4IDEzLjc2MjYgMzIuMTc2OCAxMy40Njk3IDMyLjQ2OTdMOS40Njk2NyAzNi40Njk3QzkuMTc2NzggMzYuNzYyNiA5LjE3Njc4IDM3LjIzNzQgOS40Njk2NyAzNy41MzAzQzkuNzYyNTYgMzcuODIzMiAxMC4yMzc0IDM3LjgyMzIgMTAuNTMwMyAzNy41MzAzTDEzLjI1IDM0LjgxMDdWNDFDMTMuMjUgNDEuNDE0MiAxMy41ODU4IDQxLjc1IDE0IDQxLjc1WiIgZmlsbD0iIzQwQ0U1MyIvPgo8cGF0aCBvcGFjaXR5PSIwLjIiIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNDcgNDhIMjVWNTJDMjUgNTMuMTA0NiAyNS44OTU0IDU0IDI3IDU0SDQ1QzQ2LjEwNDYgNTQgNDcgNTMuMTA0NiA0NyA1MlY0OFoiIGZpbGw9IiM0MENFNTMiLz4KPC9zdmc+Cg==" alt="Ask a System" style="display: block; width: 100%; height: auto; border-radius: 8px;">
+          <div style="font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #888; margin-top: 4px; text-align: center;">Ask a System</div>
+        </div>
+        <span class="chat-bubble__status">Retrieving PO from accounting systems...</span>
+        Matching PO found: PO-2024-3344
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Three-way match...</span>
+        Invoice INV-2024-7891 / PO PO-2024-3344 / GR GR-8821<br>
+        Line items: 3/3 matched | Amounts: 0.2% variance
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Business rules check...</span>
+        Duplicate: PASSED | Net 30: confirmed | Under $25K: auto-approved | Fraud: none
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Step 5 complete.</span>
+        Three-way match verified. Ready for system entry.
+      </div>
+
+    </div>
+  </div>
+</div>
+
+        <!-- Panel 6: Step 6 – Execute Actions and Update Systems -->
+<div class="scrolly__panel" data-panel="6">
+  <div class="panel-card">
+    <div class="panel-card__header">
+      <img src="https://thescottking.github.io/Scrolly-Demos/Inbound%20Document%20Processing/krista-mark.svg" alt="Krista" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">
+      <span class="panel-card__title">Krista Inbound Document Processing</span>
+    </div>
+    <div class="panel-card__body">
+
+      <div class="chat-bubble chat-bubble--agent">
+        <div style="float: left; margin: 0 16px 12px 0; max-width: 20%;">
+          <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzIiIGhlaWdodD0iNzIiIHZpZXdCb3g9IjAgMCA3MiA3MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjcyIiBoZWlnaHQ9IjcyIiByeD0iMjAiIGZpbGw9IiM4MDAwODAiIGZpbGwtb3BhY2l0eT0iMC4xNSIvPgo8ZyBmaWx0ZXI9InVybCgjZmlsdGVyMF9pXzExNjNfMzk4KSI+CjxwYXRoIGQ9Ik0yMiAyMUg1MEM1MC41NTIzIDIxIDUxIDIxLjQ0NzcgNTEgMjJWNTRDNTEgNTQuNTUyMyA1MC41NTIzIDU1IDUwIDU1SDIyQzIxLjQ0NzcgNTUgMjEgNTQuNTUyMyAyMSA1NFYyMkMyMSAyMS40NDc3IDIxLjQ0NzcgMjEgMjIgMjFaIiBmaWxsPSJ3aGl0ZSIvPgo8L2c+CjxnIGZpbHRlcj0idXJsKCNmaWx0ZXIxX2lfMTE2M18zOTgpIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yMCAyMkMyMCAyMC44OTU0IDIwLjg5NTQgMjAgMjIgMjBINTBDNTEuMTA0NiAyMCA1MiAyMC44OTU0IDUyIDIyVjU0QzUyIDU1LjEwNDYgNTEuMTA0NiA1NiA1MCA1NkgyMkMyMC44OTU0IDU2IDIwIDU1LjEwNDYgMjAgNTRWMjJaTTUwIDIySDIyVjU0SDUwVjIyWiIgZmlsbD0iIzgwMDA4MCIvPgo8L2c+CjxnIGZpbHRlcj0idXJsKCNmaWx0ZXIyX2lfMTE2M18zOTgpIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik00NS43ODYgMTguNTkxN0wxOC45MTI2IDI2LjQ1NDNMMjYuMjEzNiA1MS40MDgyTDUzLjA4NyA0My41NDU2TDQ1Ljc4NiAxOC41OTE3WiIgZmlsbD0id2hpdGUiLz4KPC9nPgo8ZyBmaWx0ZXI9InVybCgjZmlsdGVyM19pXzExNjNfMzk4KSI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMTYuOTkzMyAyNy4wMTZDMTYuNjgzMSAyNS45NTU4IDE3LjI5MSAyNC44NDUgMTguMzUxMiAyNC41MzQ4TDQ1LjIyNDYgMTYuNjcyMkM0Ni4yODQ3IDE2LjM2MiA0Ny4zOTU1IDE2Ljk3IDQ3LjcwNTcgMTguMDMwMUw1NS4wMDY3IDQyLjk4NEM1NS4zMTY5IDQ0LjA0NDEgNTQuNzA4OSA0NS4xNTUgNTMuNjQ4OCA0NS40NjUxTDI2Ljc3NTQgNTMuMzI3N0MyNS43MTUzIDUzLjYzNzkgMjQuNjA0NCA1My4wMyAyNC4yOTQyIDUxLjk2OThMMTYuOTkzMyAyNy4wMTZaTTQ1Ljc4NjIgMTguNTkxN0wxOC45MTI4IDI2LjQ1NDNMMjYuMjEzOCA1MS40MDgyTDUzLjA4NzIgNDMuNTQ1Nkw0NS43ODYyIDE4LjU5MTdaIiBmaWxsPSIjODAwMDgwIi8+CjwvZz4KPHJlY3QgeD0iMjIiIHk9IjI4LjU5MzgiIHdpZHRoPSIxNCIgaGVpZ2h0PSIyIiByeD0iMSIgdHJhbnNmb3JtPSJyb3RhdGUoLTE4LjMgMjIgMjguNTkzOCkiIGZpbGw9IiM4MDAwODAiLz4KPHJlY3QgeD0iMjMuMjU2IiB5PSIzMi4zOTE0IiB3aWR0aD0iMjAiIGhlaWdodD0iMiIgcng9IjEiIHRyYW5zZm9ybT0icm90YXRlKC0xOC4zIDIzLjI1NiAzMi4zOTE0KSIgZmlsbD0iIzgwMDA4MCIvPgo8cmVjdCB4PSIyNC41MTIiIHk9IjM2LjE4OTEiIHdpZHRoPSIyMSIgaGVpZ2h0PSIyIiByeD0iMSIgdHJhbnNmb3JtPSJyb3RhdGUoLTE4LjMgMjQuNTEyIDM2LjE4OTEpIiBmaWxsPSIjODAwMDgwIi8+CjxyZWN0IHg9IjI1Ljc2NzkiIHk9IjM5Ljk4NjgiIHdpZHRoPSIxOSIgaGVpZ2h0PSIyIiByeD0iMSIgdHJhbnNmb3JtPSJyb3RhdGUoLTE4LjMgMjUuNzY3OSAzOS45ODY4KSIgZmlsbD0iIzgwMDA4MCIvPgo8cmVjdCB4PSIyNy4wMjM5IiB5PSI0My43ODQ1IiB3aWR0aD0iMTQiIGhlaWdodD0iMiIgcng9IjEiIHRyYW5zZm9ybT0icm90YXRlKC0xOC4zIDI3LjAyMzkgNDMuNzg0NSkiIGZpbGw9IiM4MDAwODAiLz4KPGRlZnM+CjxmaWx0ZXIgaWQ9ImZpbHRlcjBfaV8xMTYzXzM5OCIgeD0iMjEiIHk9IjIxIiB3aWR0aD0iMzAiIGhlaWdodD0iMzQiIGZpbHRlclVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgY29sb3ItaW50ZXJwb2xhdGlvbi1maWx0ZXJzPSJzUkdCIj4KPGZlRmxvb2QgZmxvb2Qtb3BhY2l0eT0iMCIgcmVzdWx0PSJCYWNrZ3JvdW5kSW1hZ2VGaXgiLz4KPGZlQmxlbmQgbW9kZT0ibm9ybWFsIiBpbj0iU291cmNlR3JhcGhpYyIgaW4yPSJCYWNrZ3JvdW5kSW1hZ2VGaXgiIHJlc3VsdD0ic2hhcGUiLz4KPGZlQ29sb3JNYXRyaXggaW49IlNvdXJjZUFscGhhIiB0eXBlPSJtYXRyaXgiIHZhbHVlcz0iMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMTI3IDAiIHJlc3VsdD0iaGFyZEFscGhhIi8+CjxmZU9mZnNldCBkeT0iLTgiLz4KPGZlQ29tcG9zaXRlIGluMj0iaGFyZEFscGhhIiBvcGVyYXRvcj0iYXJpdGhtZXRpYyIgazI9Ii0xIiBrMz0iMSIvPgo8ZmVDb2xvck1hdHJpeCB0eXBlPSJtYXRyaXgiIHZhbHVlcz0iMCAwIDAgMCAwLjU5MjE1NyAwIDAgMCAwIDAuNDY2NjY3IDAgMCAwIDAgMC45NDkwMiAwIDAgMCAwLjQgMCIvPgo8ZmVCbGVuZCBtb2RlPSJub3JtYWwiIGluMj0ic2hhcGUiIHJlc3VsdD0iZWZmZWN0MV9pbm5lclNoYWRvd18xMTYzXzM5OCIvPgo8L2ZpbHRlcj4KPGZpbHRlciBpZD0iZmlsdGVyMV9pXzExNjNfMzk4IiB4PSIyMCIgeT0iMjAiIHdpZHRoPSIzMiIgaGVpZ2h0PSIzNiIgZmlsdGVyVW5pdHM9InVzZXJTcGFjZU9uVXNlIiBjb2xvci1pbnRlcnBvbGF0aW9uLWZpbHRlcnM9InNSR0IiPgo8ZmVGbG9vZCBmbG9vZC1vcGFjaXR5PSIwIiByZXN1bHQ9IkJhY2tncm91bmRJbWFnZUZpeCIvPgo8ZmVCbGVuZCBtb2RlPSJub3JtYWwiIGluPSJTb3VyY2VHcmFwaGljIiBpbjI9IkJhY2tncm91bmRJbWFnZUZpeCIgcmVzdWx0PSJzaGFwZSIvPgo8ZmVDb2xvck1hdHJpeCBpbj0iU291cmNlQWxwaGEiIHR5cGU9Im1hdHJpeCIgdmFsdWVzPSIwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAxMjcgMCIgcmVzdWx0PSJoYXJkQWxwaGEiLz4KPGZlT2Zmc2V0IGR5PSItOCIvPgo8ZmVDb21wb3NpdGUgaW4yPSJoYXJkQWxwaGEiIG9wZXJhdG9yPSJhcml0aG1ldGljIiBrMj0iLTEiIGszPSIxIi8+CjxmZUNvbG9yTWF0cml4IHR5cGU9Im1hdHJpeCIgdmFsdWVzPSIwIDAgMCAwIDAuNTkyMTU3IDAgMCAwIDAgMC40NjY2NjcgMCAwIDAgMCAwLjk0OTAyIDAgMCAwIDAuNCAwIi8+CjxmZUJsZW5kIG1vZGU9Im5vcm1hbCIgaW4yPSJzaGFwZSIgcmVzdWx0PSJlZmZlY3QxX2lubmVyU2hhZG93XzExNjNfMzk4Ii8+CjwvZmlsdGVyPgo8ZmlsdGVyIGlkPSJmaWx0ZXIyX2lfMTE2M18zOTgiIHg9IjE4LjkxMjYiIHk9IjE4LjU5MTciIHdpZHRoPSIzNC4xNzQzIiBoZWlnaHQ9IjMyLjgxNjUiIGZpbHRlclVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgY29sb3ItaW50ZXJwb2xhdGlvbi1maWx0ZXJzPSJzUkdCIj4KPGZlRmxvb2QgZmxvb2Qtb3BhY2l0eT0iMCIgcmVzdWx0PSJCYWNrZ3JvdW5kSW1hZ2VGaXgiLz4KPGZlQmxlbmQgbW9kZT0ibm9ybWFsIiBpbj0iU291cmNlR3JhcGhpYyIgaW4yPSJCYWNrZ3JvdW5kSW1hZ2VGaXgiIHJlc3VsdD0ic2hhcGUiLz4KPGZlQ29sb3JNYXRyaXggaW49IlNvdXJjZUFscGhhIiB0eXBlPSJtYXRyaXgiIHZhbHVlcz0iMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMTI3IDAiIHJlc3VsdD0iaGFyZEFscGhhIi8+CjxmZU9mZnNldCBkeT0iLTMiLz4KPGZlQ29tcG9zaXRlIGluMj0iaGFyZEFscGhhIiBvcGVyYXRvcj0iYXJpdGhtZXRpYyIgazI9Ii0xIiBrMz0iMSIvPgo8ZmVDb2xvck1hdHJpeCB0eXBlPSJtYXRyaXgiIHZhbHVlcz0iMCAwIDAgMCAwLjU5MjE1NyAwIDAgMCAwIDAuNDY2NjY3IDAgMCAwIDAgMC45NDkwMiAwIDAgMCAwLjIgMCIvPgo8ZmVCbGVuZCBtb2RlPSJub3JtYWwiIGluMj0ic2hhcGUiIHJlc3VsdD0iZWZmZWN0MV9pbm5lclNoYWRvd18xMTYzXzM5OCIvPgo8L2ZpbHRlcj4KPGZpbHRlciBpZD0iZmlsdGVyM19pXzExNjNfMzk4IiB4PSIxNi45MTIyIiB5PSIxNi41OTEyIiB3aWR0aD0iMzguMTc1NCIgaGVpZ2h0PSIzNi44MTc1IiBmaWx0ZXJVbml0cz0idXNlclNwYWNlT25Vc2UiIGNvbG9yLWludGVycG9sYXRpb24tZmlsdGVycz0ic1JHQiI+CjxmZUZsb29kIGZsb29kLW9wYWNpdHk9IjAiIHJlc3VsdD0iQmFja2dyb3VuZEltYWdlRml4Ii8+CjxmZUJsZW5kIG1vZGU9Im5vcm1hbCIgaW49IlNvdXJjZUdyYXBoaWMiIGluMj0iQmFja2dyb3VuZEltYWdlRml4IiByZXN1bHQ9InNoYXBlIi8+CjxmZUNvbG9yTWF0cml4IGluPSJTb3VyY2VBbHBoYSIgdHlwZT0ibWF0cml4IiB2YWx1ZXM9IjAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDEyNyAwIiByZXN1bHQ9ImhhcmRBbHBoYSIvPgo8ZmVPZmZzZXQgZHk9Ii02Ii8+CjxmZUNvbXBvc2l0ZSBpbjI9ImhhcmRBbHBoYSIgb3BlcmF0b3I9ImFyaXRobWV0aWMiIGsyPSItMSIgazM9IjEiLz4KPGZlQ29sb3JNYXRyaXggdHlwZT0ibWF0cml4IiB2YWx1ZXM9IjAgMCAwIDAgMC41OTIxNTcgMCAwIDAgMCAwLjQ2NjY2NyAwIDAgMCAwIDAuOTQ5MDIgMCAwIDAgMC4yIDAiLz4KPGZlQmxlbmQgbW9kZT0ibm9ybWFsIiBpbjI9InNoYXBlIiByZXN1bHQ9ImVmZmVjdDFfaW5uZXJTaGFkb3dfMTE2M18zOTgiLz4KPC9maWx0ZXI+CjwvZGVmcz4KPC9zdmc+Cg==" alt="Manage Information" style="display: block; width: 100%; height: auto; border-radius: 8px;">
+          <div style="font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #888; margin-top: 4px; text-align: center;">Manage Information</div>
+        </div>
+        <span class="chat-bubble__status">Mapping to ERP...</span>
+        Vendor ID: V-00482 | Cost center: CC-3100 | GL: 5200
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Posting to accounts payable...</span>
+        AP voucher created in SAP. Payment scheduled: April 14, 2026.
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Audit trail logged.</span>
+        Receipt, classification, verification, match, and ERP entry recorded.
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        <span class="chat-bubble__status">Step 6 complete.</span>
+        Systems updated. Audit secured. Ready for next document.
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- Panel 7: Final Summary & Call to Action -->
+<div class="scrolly__panel" data-panel="7">
+  <div class="panel-card">
+    <div class="panel-card__header">
+      <img src="https://thescottking.github.io/Scrolly-Demos/Inbound%20Document%20Processing/krista-mark.svg" alt="Krista" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">
+      <span class="panel-card__title">Krista Inbound Document Processing</span>
+    </div>
+    <div class="panel-card__body">
+
+      <div class="chat-bubble chat-bubble--agent">
+        <div style="float: left; margin: 0 16px 12px 0; max-width: 20%;">
+          <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzIiIGhlaWdodD0iNzIiIHZpZXdCb3g9IjAgMCA3MiA3MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjcyIiBoZWlnaHQ9IjcyIiByeD0iMjAiIGZpbGw9IiNGRjAwMDAiIGZpbGwtb3BhY2l0eT0iMC4xNSIvPgo8cmVjdCB4PSIyOCIgeT0iMjEiIHdpZHRoPSIzIiBoZWlnaHQ9IjMwIiByeD0iMSIgZmlsbD0id2hpdGUiIHN0cm9rZT0iI0ZGMDAwMCIgc3Ryb2tlLXdpZHRoPSIyIi8+CjxwYXRoIGQ9Ik0yOCAyNEg0OS4zODJMNDYuMzI5MiAzMC4xMDU2QzQ2LjA0NzcgMzAuNjY4NiA0Ni4wNDc3IDMxLjMzMTQgNDYuMzI5MiAzMS44OTQ0TDQ5LjM4MiAzOEgyOFYyNFoiIGZpbGw9IndoaXRlIiBzdHJva2U9IiNGRjAwMDAiIHN0cm9rZS13aWR0aD0iMiIvPgo8cGF0aCBvcGFjaXR5PSIwLjIiIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMjggMjNDMjcuNDQ3NyAyMyAyNyAyMy40NDc3IDI3IDI0VjM4QzI3IDM4LjU1MjMgMjcuNDQ3NyAzOSAyOCAzOUgzNlYyM0gyOFoiIGZpbGw9IiNFQzRENEQiLz4KPC9zdmc+Cg==" alt="End Conversation" style="display: block; width: 100%; height: auto; border-radius: 8px;">
+          <div style="font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #888; margin-top: 4px; text-align: center;">End Conversation</div>
+        </div>
+        <strong>That's the full Krista document processing workflow.</strong>
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        Invoices classified, extracted, validated, matched, and entered into your ERP automatically, accurately, and with a full audit trail.
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden">
+        Building this yourself requires custom ML, enterprise OCR, governed escalation, three-way matching, ERP integrations, and permanent audit trails. Most teams never finish it.
+      </div>
+
+      <!-- Call to Action Button -->
+      <div style="text-align: center; margin: 24px 0;">
+        <a href="https://krista.ai/contact/"
+           target="_blank"
+           style="display: inline-block; padding: 16px 32px; background-color: #4FD7ED; color: #FFFFFF; font-weight: bold; text-decoration: none; border-radius: 8px; font-size: 18px; box-shadow: 0 4px 12px rgba(79,215,237,0.3); transition: all 0.3s;">
+          Contact Us to Get Started
+        </a>
+      </div>
+
+      <div class="chat-bubble chat-bubble--agent chat-bubble--hidden" style="text-align: center; font-size: 14px; color: #7471FF;">
+        Let's talk about how Krista can transform your document processing today.
+      </div>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+
+  </section>
+
+  <footer class="closing">
+    <p class="closing__text">That's the full document processing workflow. Simple, fast, and thorough.</p>
+  </footer>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const steps = document.querySelectorAll('.scrolly__step');
+  const panels = document.querySelectorAll('.scrolly__panel');
+
+  if (!steps.length || !panels.length) return;
+
+  let currentStep = '1';
+
+  function activateStep(stepIndex) {
+    if (stepIndex === currentStep) return;
+    currentStep = stepIndex;
+
+    steps.forEach((s) => s.classList.remove('is-active'));
+    panels.forEach((p) => p.classList.remove('is-active'));
+
+    const step = document.querySelector(`.scrolly__step[data-step="${stepIndex}"]`);
+    const panel = document.querySelector(`.scrolly__panel[data-panel="${stepIndex}"]`);
+
+    if (step) step.classList.add('is-active');
+    if (panel) panel.classList.add('is-active');
+
+    // Handle chat bubbles for panel 1
+    if (stepIndex === '1') {
+      const bubbles = panel.querySelectorAll('.chat-bubble');
+      bubbles.forEach((bubble, index) => {
+        if (index === 0) bubble.classList.remove('chat-bubble--hidden');
+        else bubble.classList.add('chat-bubble--hidden');
+      });
+    }
+    // Handle chat bubbles for panel 2
+    if (stepIndex === '2') {
+      const bubbles = panel.querySelectorAll('.chat-bubble');
+      bubbles.forEach((bubble, index) => {
+        if (index === 0) bubble.classList.remove('chat-bubble--hidden');
+        else bubble.classList.add('chat-bubble--hidden');
+      });
+    }
+    // Handle chat bubbles for panel 3
+    if (stepIndex === '3') {
+      const bubbles = panel.querySelectorAll('.chat-bubble');
+      bubbles.forEach((bubble, index) => {
+        if (index === 0) bubble.classList.remove('chat-bubble--hidden');
+        else bubble.classList.add('chat-bubble--hidden');
+      });
+    }
+    // Handle chat bubbles for panel 4
+    if (stepIndex === '4') {
+      const bubbles = panel.querySelectorAll('.chat-bubble');
+      bubbles.forEach((bubble, index) => {
+        if (index === 0) bubble.classList.remove('chat-bubble--hidden');
+        else bubble.classList.add('chat-bubble--hidden');
+      });
+    }
+    // Handle chat bubbles for panel 5
+    if (stepIndex === '5') {
+      const bubbles = panel.querySelectorAll('.chat-bubble');
+      bubbles.forEach((bubble, index) => {
+        if (index === 0) bubble.classList.remove('chat-bubble--hidden');
+        else bubble.classList.add('chat-bubble--hidden');
+      });
+    }
+    // Handle chat bubbles for panel 6
+    if (stepIndex === '6') {
+      const bubbles = panel.querySelectorAll('.chat-bubble');
+      bubbles.forEach((bubble, index) => {
+        if (index === 0) bubble.classList.remove('chat-bubble--hidden');
+        else bubble.classList.add('chat-bubble--hidden');
+      });
+    }
+    // Handle chat bubbles for panel 7
+    if (stepIndex === '7') {
+      const bubbles = panel.querySelectorAll('.chat-bubble');
+      bubbles.forEach((bubble, index) => {
+        if (index === 0) bubble.classList.remove('chat-bubble--hidden');
+        else bubble.classList.add('chat-bubble--hidden');
+      });
+    }
+  }
+
+  function findClosestStep() {
+    const viewportCenter = window.innerHeight / 2;
+    let closest = null;
+    let maxTop = -Infinity;
+
+    steps.forEach((step) => {
+      const rect = step.getBoundingClientRect();
+      if (rect.top <= viewportCenter && rect.top > maxTop) {
+        maxTop = rect.top;
+        closest = step.dataset.step;
+      }
+    });
+
+    // If no step found (e.g., scrolled past all), activate the last step
+    if (!closest && steps.length > 0) {
+      closest = steps[steps.length - 1].dataset.step;
+    }
+
+    return closest;
+  }
+
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        const closest = findClosestStep();
+        if (closest) activateStep(closest);
+
+        // Handle progressive chat bubbles for step 1
+        if (currentStep === '1') {
+          const step1 = document.querySelector('.scrolly__step[data-step="1"]');
+          const rect = step1.getBoundingClientRect();
+          const stepTop = window.scrollY + rect.top;
+          const viewportCenter = window.scrollY + window.innerHeight / 2;
+          const progress = Math.max(0, Math.min(1, (viewportCenter - stepTop) / rect.height));
+
+          const bubbles = document.querySelectorAll('.scrolly__panel[data-panel="1"] .chat-bubble');
+          if (bubbles.length >= 3) {
+            bubbles[1].classList.toggle('chat-bubble--hidden', progress < 0.33);
+            bubbles[2].classList.toggle('chat-bubble--hidden', progress < 0.66);
+          }
+        }
+
+        // Handle progressive chat bubbles for step 2
+        if (currentStep === '2') {
+          const step2 = document.querySelector('.scrolly__step[data-step="2"]');
+          const rect = step2.getBoundingClientRect();
+          const stepTop = window.scrollY + rect.top;
+          const viewportCenter = window.scrollY + window.innerHeight / 2;
+          const progress = Math.max(0, Math.min(1, (viewportCenter - stepTop) / rect.height));
+
+          const bubbles = document.querySelectorAll('.scrolly__panel[data-panel="2"] .chat-bubble');
+          const thresholds = [0.2, 0.4, 0.6, 0.8];
+          bubbles.forEach((bubble, index) => {
+            if (index > 0 && index <= thresholds.length) {
+              bubble.classList.toggle('chat-bubble--hidden', progress < thresholds[index - 1]);
+            }
+          });
+        }
+
+        // Handle progressive chat bubbles for step 3
+        if (currentStep === '3') {
+          const step3 = document.querySelector('.scrolly__step[data-step="3"]');
+          const rect = step3.getBoundingClientRect();
+          const stepTop = window.scrollY + rect.top;
+          const viewportCenter = window.scrollY + window.innerHeight / 2;
+          const progress = Math.max(0, Math.min(1, (viewportCenter - stepTop) / rect.height));
+
+          const bubbles = document.querySelectorAll('.scrolly__panel[data-panel="3"] .chat-bubble');
+          if (bubbles.length >= 2) {
+            bubbles[1].classList.toggle('chat-bubble--hidden', progress < 0.5);
+          }
+        }
+
+        // Handle progressive chat bubbles for step 4
+        if (currentStep === '4') {
+          const step4 = document.querySelector('.scrolly__step[data-step="4"]');
+          const rect = step4.getBoundingClientRect();
+          const stepTop = window.scrollY + rect.top;
+          const viewportCenter = window.scrollY + window.innerHeight / 2;
+          const progress = Math.max(0, Math.min(1, (viewportCenter - stepTop) / rect.height));
+
+          const bubbles = document.querySelectorAll('.scrolly__panel[data-panel="4"] .chat-bubble');
+          const numBubbles = bubbles.length;
+          bubbles.forEach((bubble, index) => {
+            if (index > 0) {
+              const threshold = index / numBubbles;
+              bubble.classList.toggle('chat-bubble--hidden', progress < threshold);
+            }
+          });
+        }
+
+        // Handle progressive chat bubbles for step 5
+        if (currentStep === '5') {
+          const step5 = document.querySelector('.scrolly__step[data-step="5"]');
+          const rect = step5.getBoundingClientRect();
+          const stepTop = window.scrollY + rect.top;
+          const viewportCenter = window.scrollY + window.innerHeight / 2;
+          const progress = Math.max(0, Math.min(1, (viewportCenter - stepTop) / rect.height));
+
+          const bubbles = document.querySelectorAll('.scrolly__panel[data-panel="5"] .chat-bubble');
+          const numBubbles = bubbles.length;
+          bubbles.forEach((bubble, index) => {
+            if (index > 0) {
+              const threshold = index / numBubbles;
+              bubble.classList.toggle('chat-bubble--hidden', progress < threshold);
+            }
+          });
+        }
+
+        // Handle progressive chat bubbles for step 6
+        if (currentStep === '6') {
+          const step6 = document.querySelector('.scrolly__step[data-step="6"]');
+          const rect = step6.getBoundingClientRect();
+          const stepTop = window.scrollY + rect.top;
+          const viewportCenter = window.scrollY + window.innerHeight / 2;
+          const progress = Math.max(0, Math.min(1, (viewportCenter - stepTop) / rect.height));
+
+          const bubbles = document.querySelectorAll('.scrolly__panel[data-panel="6"] .chat-bubble');
+          const numBubbles = bubbles.length;
+          bubbles.forEach((bubble, index) => {
+            if (index > 0) {
+              const threshold = index / numBubbles;
+              bubble.classList.toggle('chat-bubble--hidden', progress < threshold);
+            }
+          });
+        }
+
+        // Handle progressive chat bubbles for step 7
+        if (currentStep === '7') {
+          const step7 = document.querySelector('.scrolly__step[data-step="7"]');
+          const rect = step7.getBoundingClientRect();
+          const stepTop = window.scrollY + rect.top;
+          const viewportCenter = window.scrollY + window.innerHeight / 2;
+          const progress = Math.max(0, Math.min(1, (viewportCenter - stepTop) / rect.height));
+
+          const bubbles = document.querySelectorAll('.scrolly__panel[data-panel="7"] .chat-bubble');
+          const numBubbles = bubbles.length;
+          bubbles.forEach((bubble, index) => {
+            if (index > 0) {
+              const threshold = index / numBubbles;
+              bubble.classList.toggle('chat-bubble--hidden', progress < threshold);
+            }
+          });
+        }
+
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  // Activate first step on load
+  activateStep('1');
+});
+
+</script>
+
+</body>
+</html>
