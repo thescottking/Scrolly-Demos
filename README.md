@@ -8,6 +8,8 @@ Interactive scrollytelling demos that walk viewers through how [Krista](https://
 
 - **[Email Read and Respond](https://thescottking.github.io/Scrolly-Demos/Email%20read%20and%20respond/)** — How the Krista Email Response Agent monitors inboxes, detects intent with native ML, retrieves enterprise data, and sends governed responses.
 
+- **[Email Triage](https://thescottking.github.io/Scrolly-Demos/Email%20Triage/)** — How the Krista Email Triage Agent classifies inbound mail by intent, urgency, account, and persona, then routes work into your system of record (Salesforce) — without drafting a reply.
+
 ## How It Works
 
 Each demo is a self-contained folder with three files:
