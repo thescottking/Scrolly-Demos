@@ -10,6 +10,8 @@ Interactive scrollytelling demos that walk viewers through how [Krista](https://
 
 - **[Email Triage](https://thescottking.github.io/Scrolly-Demos/Email%20Triage/)** — How the Krista Email Triage Agent classifies inbound mail by intent, urgency, account, and persona, then routes work into your system of record (Salesforce) — without drafting a reply.
 
+- **[AI Chatbot](https://thescottking.github.io/Scrolly-Demos/AI%20Chatbot/)** — How the Krista AI Chatbot greets website visitors, detects intent with native ML, queries verified sources for grounded answers (no hallucinations), and hands off to a live agent in the same chat when needed.
+
 ## How It Works
 
 Each demo is a self-contained folder with three files:
