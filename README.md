@@ -6,7 +6,7 @@ Interactive scrollytelling demos that walk viewers through how [Krista](https://
 
 - **[Inbound Document Processing](https://thescottking.github.io/Scrolly-Demos/Inbound%20Document%20Processing/embed.html)** — How Krista processes invoices and documents arriving via email, from inbox monitoring through ML classification, data extraction, human-in-the-loop verification, and ERP updates.
 
-- **[Email Read and Respond](https://thescottking.github.io/Scrolly-Demos/Email%20read%20and%20respond/embed.html)** — How the Krista Email Response Agent monitors inboxes, detects intent with native ML, retrieves enterprise data, and sends governed responses.
+- **[Email Read and Respond](https://thescottking.github.io/Scrolly-Demos/Email%20read%20and%20respond/)** — How the Krista Email Response Agent monitors inboxes, detects intent with native ML, retrieves enterprise data, and sends governed responses.
 
 ## How It Works
 
